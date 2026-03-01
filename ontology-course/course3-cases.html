@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第三课：多领域实战案例 · 本体论交互式课程</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .case-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .case-tab {
+      padding: 0.65rem 1.25rem;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      background: white;
+      color: var(--gray-600);
+    }
+    .case-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .case-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .case-panel { display: none; }
+    .case-panel.active { display: block; animation: fadeIn 0.3s ease; }
+    .entity-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin: 0.15rem;
+    }
+    .model-section {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin: 0.75rem 0;
+    }
+    .model-section h5 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="logo">🧠</div>
+      <span>Ontology 课堂</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="course1-basics.html">基础篇</a></li>
+      <li><a href="course2-framework.html">建模框架</a></li>
+      <li><a href="course3-cases.html" class="active">实战案例</a></li>
+      <li><a href="course4-llm.html">Ontology×LLM</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <section class="course-hero" style="background: linear-gradient(135deg, #9a3412 0%, #ea580c 50%, #f97316 100%);">
+      <div class="container">
+        <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;">
+          <span class="badge" style="background:rgba(255,255,255,0.15);color:white;">第三课</span>
+          <span class="badge" style="background:rgba(249,115,22,0.3);color:#fed7aa;">实战应用</span>
+        </div>
+        <h1>🏗️ 多领域实战案例</h1>
+        <p class="subtitle">四大真实场景，用 OPERA 框架完整走一遍从需求到代码的建模全流程</p>
+      </div>
+    </section>
+
+    <div class="layout-with-sidebar">
+      <aside class="sidebar">
+        <nav>
+          <ul class="sidebar-nav">
+            <li class="section-title">实战案例</li>
+            <li><a href="#overview" class="active">案例总览</a></li>
+            <li><a href="#case1">🏥 智慧医院</a></li>
+            <li><a href="#case2">🛒 电商供应链</a></li>
+            <li><a href="#case3">🚗 智慧交通</a></li>
+            <li><a href="#case4">📚 企业知识管理</a></li>
+            <li><a href="#summary">总结与对比</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main>
+        <!-- 案例总览 -->
+        <section class="chapter" id="overview">
+          <div class="chapter-header">
+            <h2>四大实战案例总览</h2>
+            <p>每个案例都按照 OPERA 框架的五步流程进行，并提供 Python 代码实现</p>
+          </div>
+          <div class="card-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="content-card" style="border-left:4px solid var(--primary);">
+              <h3>🏥 案例一：智慧医院</h3>
+              <p>建模患者、医生、科室、处方之间的复杂关系，支持诊疗流程管控和药物过敏推理。</p>
+              <span class="badge badge-blue">难度：⭐⭐</span>
+            </div>
+            <div class="content-card" style="border-left:4px solid var(--success);">
+              <h3>🛒 案例二：电商供应链</h3>
+              <p>对供应商、仓库、商品、订单、物流进行端到端建模，实现库存预警和配送优化。</p>
+              <span class="badge badge-green">难度：⭐⭐⭐</span>
+            </div>
+            <div class="content-card" style="border-left:4px solid var(--orange);">
+              <h3>🚗 案例三：智慧城市交通</h3>
+              <p>对道路、车辆、信号灯、事故进行建模，实现智能交通调度和拥堵分析。</p>
+              <span class="badge badge-orange">难度：⭐⭐⭐</span>
+            </div>
+            <div class="content-card" style="border-left:4px solid var(--purple);">
+              <h3>📚 案例四：企业知识管理</h3>
+              <p>对文档、员工、项目、技能进行建模，构建企业知识图谱，实现专家推荐。</p>
+              <span class="badge badge-purple">难度：⭐⭐</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- 案例一：智慧医院 -->
+        <!-- ============================================ -->
+        <section class="chapter" id="case1">
+          <div class="chapter-header">
+            <h2>🏥 案例一：智慧医院管理系统</h2>
+            <p>用 OPERA 框架为一家三甲医院建立完整的 Ontology 模型</p>
+          </div>
+
+          <div class="content-card">
+            <h3>📋 业务背景</h3>
+            <div style="background:var(--gray-50);border-radius:var(--radius);padding:1rem;font-size:0.92rem;line-height:1.8;">
+              <p>某三甲医院正在进行数字化转型，面临以下挑战：</p>
+              <ul>
+                <li>HIS（医院信息系统）、LIS（化验系统）、PACS（影像系统）数据孤岛</li>
+                <li>跨科室会诊时，医生无法快速了解患者全貌</li>
+                <li>药物过敏事故偶有发生，缺乏自动预警</li>
+                <li>新上任的 AI 团队想构建智能问诊助手，但缺乏结构化医疗知识</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🏷️ 第一步：O — 识别对象类型</h3>
+            <p>通过访谈医生、护士、IT，收集业务名词：</p>
+            <div style="margin:0.75rem 0;">
+              <span class="entity-tag" style="background:var(--primary-light);color:var(--primary-dark);">👤 患者</span>
+              <span class="entity-tag" style="background:var(--primary-light);color:var(--primary-dark);">👨‍⚕️ 医生</span>
+              <span class="entity-tag" style="background:var(--primary-light);color:var(--primary-dark);">👩‍⚕️ 护士</span>
+              <span class="entity-tag" style="background:var(--success-light);color:#047857;">🏥 科室</span>
+              <span class="entity-tag" style="background:var(--success-light);color:#047857;">🛏️ 病房</span>
+              <span class="entity-tag" style="background:var(--purple-light);color:#6d28d9;">💊 药品</span>
+              <span class="entity-tag" style="background:var(--purple-light);color:#6d28d9;">📋 处方</span>
+              <span class="entity-tag" style="background:var(--orange-light);color:#c2410c;">🔬 检查项目</span>
+              <span class="entity-tag" style="background:var(--orange-light);color:#c2410c;">📊 检查报告</span>
+              <span class="entity-tag" style="background:var(--pink-light);color:#be185d;">📅 挂号记录</span>
+              <span class="entity-tag" style="background:var(--pink-light);color:#be185d;">🏷️ 疾病/诊断</span>
+            </div>
+            <div class="model-section">
+              <h5 style="color:var(--primary);">类层级结构</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">类层级</span>
+                </div>
+                <pre>
+Thing
+├── <span class="type">Person</span>
+│   ├── <span class="type">Patient</span>（患者）
+│   │   ├── <span class="type">InPatient</span>（住院患者）
+│   │   └── <span class="type">OutPatient</span>（门诊患者）
+│   ├── <span class="type">Doctor</span>（医生）
+│   │   ├── <span class="type">AttendingPhysician</span>（主治医师）
+│   │   └── <span class="type">ChiefPhysician</span>（主任医师）
+│   └── <span class="type">Nurse</span>（护士）
+├── <span class="type">Department</span>（科室）
+├── <span class="type">Ward</span>（病房）
+├── <span class="type">Medication</span>（药品）
+├── <span class="type">Prescription</span>（处方）
+├── <span class="type">Examination</span>（检查项目）
+├── <span class="type">ExamReport</span>（检查报告）
+├── <span class="type">Appointment</span>（挂号记录）
+└── <span class="type">Diagnosis</span>（疾病/诊断）</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>📝 第二步：P — 定义属性</h3>
+            <table class="comparison-table">
+              <thead><tr><th>对象类型</th><th>属性</th><th>数据类型</th><th>约束</th></tr></thead>
+              <tbody>
+                <tr><td>Patient</td><td>patient_id, name, birth_date, gender, blood_type, allergies</td><td>str, str, date, enum, enum, list[str]</td><td>patient_id 唯一</td></tr>
+                <tr><td>Doctor</td><td>doctor_id, name, title, specialty, years_experience</td><td>str, str, enum, str, int</td><td>years_exp ≥ 0</td></tr>
+                <tr><td>Medication</td><td>med_id, name, category, dosage_form, stock</td><td>str, str, str, str, int</td><td>stock ≥ 0</td></tr>
+                <tr><td>Prescription</td><td>rx_id, created_at, dosage, frequency, duration</td><td>str, datetime, str, str, int</td><td>duration > 0</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="content-card">
+            <h3>⚡ 第三步：E — 梳理事件/动作</h3>
+            <div class="model-section">
+              <h5 style="color:var(--accent);">核心业务动作</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">动作定义</span>
+                </div>
+                <pre>
+<span class="keyword">Action</span> <span class="function">挂号</span>(Register) {
+  触发者: Patient | 工作人员
+  目标:   Patient → Department
+  前置:   Doctor.available == <span class="keyword">true</span>
+  效果:   创建 Appointment, 分配 Doctor
+}
+
+<span class="keyword">Action</span> <span class="function">开处方</span>(Prescribe) {
+  触发者: Doctor
+  目标:   Patient, Medication[]
+  前置:   Doctor.treats(Patient)
+  <span class="type">⚠️ 安全检查</span>: Medication ∉ Patient.allergies  <span class="comment">// 关键！</span>
+  效果:   创建 Prescription, 扣减库存
+}
+
+<span class="keyword">Action</span> <span class="function">入院</span>(Admit) {
+  触发者: Doctor
+  目标:   Patient → Ward
+  前置:   Ward.available_beds > <span class="number">0</span>
+  效果:   Patient.type = InPatient, Ward.occupied += <span class="number">1</span>
+}
+
+<span class="keyword">Event</span> <span class="function">药物过敏警报</span>(AllergyAlert) {
+  触发条件: 处方中药品 ∈ 患者过敏列表
+  效果:     阻止处方提交, 通知医生
+}</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🔗 第四步：R — 建立关系</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">关系模型</span>
+              </div>
+              <pre>
+<span class="comment">// 核心关系</span>
+Doctor  ──<span class="function">treats</span>──→  Patient     <span class="comment">// 医生治疗患者 (M:N)</span>
+Doctor  ──<span class="function">belongs_to</span>──→  Department  <span class="comment">// 医生属于科室 (N:1)</span>
+Patient ──<span class="function">admitted_to</span>──→  Ward       <span class="comment">// 住院于病房 (1:1)</span>
+Doctor  ──<span class="function">prescribes</span>──→  Prescription <span class="comment">// 开处方 (1:N)</span>
+Prescription ──<span class="function">contains</span>──→  Medication <span class="comment">// 包含药品 (1:N)</span>
+Prescription ──<span class="function">for_patient</span>──→  Patient  <span class="comment">// 处方属于患者 (N:1)</span>
+Patient ──<span class="function">has_diagnosis</span>──→  Diagnosis  <span class="comment">// 诊断 (M:N)</span>
+
+<span class="comment">// 逆关系</span>
+Patient ──<span class="function">treated_by</span>──→  Doctor     <span class="comment">// treats 的逆</span>
+Ward    ──<span class="function">houses</span>──→  Patient         <span class="comment">// admitted_to 的逆</span></pre>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>📏 第五步：A — 添加公理/约束</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">公理定义</span>
+              </div>
+              <pre>
+<span class="comment">// 约束型公理</span>
+<span class="type">A1</span>: Patient.patient_id <span class="keyword">is UNIQUE</span>
+<span class="type">A2</span>: InPatient <span class="keyword">DisjointWith</span> OutPatient   <span class="comment">// 同一时间不能既住院又是门诊</span>
+<span class="type">A3</span>: Prescription <span class="function">for_patient</span> <span class="keyword">exactly</span> <span class="number">1</span> Patient
+<span class="type">A4</span>: Prescription <span class="function">contains</span> <span class="keyword">min</span> <span class="number">1</span> Medication
+
+<span class="comment">// 推理型公理（药物安全）</span>
+<span class="type">A5</span>: <span class="keyword">IF</span> Prescription.contains(med) <span class="keyword">AND</span> 
+       Prescription.for_patient.allergies.includes(med.category)
+     <span class="keyword">THEN</span> <span class="function">RAISE</span> AllergyAlert
+     
+<span class="comment">// 推理型公理（自动分类）</span>
+<span class="type">A6</span>: <span class="keyword">IF</span> Doctor.treats <span class="keyword">ONLY</span> (Patient <span class="keyword">AND</span> age < <span class="number">14</span>)
+     <span class="keyword">THEN</span> Doctor <span class="keyword">is-a</span> Pediatrician</pre>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>💻 完整 Python 实现</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">Python (owlready2)</span>
+              </div>
+              <pre>
+<span class="keyword">from</span> owlready2 <span class="keyword">import</span> *
+
+<span class="comment"># 创建本体</span>
+onto = get_ontology(<span class="string">"http://example.org/smart-hospital.owl"</span>)
+
+<span class="keyword">with</span> onto:
+    <span class="comment"># ===== O: 对象类型 =====</span>
+    <span class="keyword">class</span> <span class="type">Person</span>(Thing): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Patient</span>(Person): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">InPatient</span>(Patient): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">OutPatient</span>(Patient): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Doctor</span>(Person): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Nurse</span>(Person): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Department</span>(Thing): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Ward</span>(Thing): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Medication</span>(Thing): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Prescription</span>(Thing): <span class="keyword">pass</span>
+    <span class="keyword">class</span> <span class="type">Diagnosis</span>(Thing): <span class="keyword">pass</span>
+
+    <span class="comment"># ===== P: 属性 =====</span>
+    <span class="keyword">class</span> <span class="function">has_name</span>(DataProperty, FunctionalProperty):
+        domain = [Person]; range = [<span class="type">str</span>]
+    <span class="keyword">class</span> <span class="function">has_age</span>(DataProperty, FunctionalProperty):
+        domain = [Person]; range = [<span class="type">int</span>]
+    <span class="keyword">class</span> <span class="function">has_allergy</span>(DataProperty):
+        domain = [Patient]; range = [<span class="type">str</span>]
+    <span class="keyword">class</span> <span class="function">has_stock</span>(DataProperty, FunctionalProperty):
+        domain = [Medication]; range = [<span class="type">int</span>]
+    <span class="keyword">class</span> <span class="function">med_name</span>(DataProperty, FunctionalProperty):
+        domain = [Medication]; range = [<span class="type">str</span>]
+
+    <span class="comment"># ===== R: 关系 =====</span>
+    <span class="keyword">class</span> <span class="function">treats</span>(ObjectProperty):
+        domain = [Doctor]; range = [Patient]
+    <span class="keyword">class</span> <span class="function">treated_by</span>(ObjectProperty):
+        inverse_property = treats
+    <span class="keyword">class</span> <span class="function">belongs_to</span>(ObjectProperty, FunctionalProperty):
+        domain = [Doctor]; range = [Department]
+    <span class="keyword">class</span> <span class="function">contains_med</span>(ObjectProperty):
+        domain = [Prescription]; range = [Medication]
+    <span class="keyword">class</span> <span class="function">for_patient</span>(ObjectProperty, FunctionalProperty):
+        domain = [Prescription]; range = [Patient]
+
+    <span class="comment"># ===== A: 公理 =====</span>
+    AllDisjoint([InPatient, OutPatient])
+
+<span class="comment"># ===== 创建实例并测试推理 =====</span>
+<span class="keyword">with</span> onto:
+    <span class="comment"># 创建科室</span>
+    cardiology = Department(<span class="string">"cardiology"</span>)
+
+    <span class="comment"># 创建医生</span>
+    dr_wang = Doctor(<span class="string">"dr_wang"</span>)
+    dr_wang.has_name = [<span class="string">"王医生"</span>]
+    dr_wang.belongs_to = [cardiology]
+
+    <span class="comment"># 创建患者</span>
+    patient_zhang = InPatient(<span class="string">"patient_zhang"</span>)
+    patient_zhang.has_name = [<span class="string">"张三"</span>]
+    patient_zhang.has_age = [<span class="number">45</span>]
+    patient_zhang.has_allergy = [<span class="string">"青霉素"</span>]
+
+    <span class="comment"># 建立关系</span>
+    dr_wang.treats.append(patient_zhang)
+
+    <span class="comment"># 创建药品</span>
+    aspirin = Medication(<span class="string">"aspirin"</span>)
+    aspirin.med_name = [<span class="string">"阿司匹林"</span>]
+    aspirin.has_stock = [<span class="number">500</span>]
+
+    <span class="comment"># 创建处方</span>
+    rx001 = Prescription(<span class="string">"rx001"</span>)
+    rx001.for_patient = [patient_zhang]
+    rx001.contains_med = [aspirin]
+
+<span class="comment"># E: 药物安全检查（动作逻辑）</span>
+<span class="keyword">def</span> <span class="function">check_allergy</span>(prescription):
+    patient = prescription.for_patient[<span class="number">0</span>]
+    allergies = patient.has_allergy
+    <span class="keyword">for</span> med <span class="keyword">in</span> prescription.contains_med:
+        <span class="keyword">if</span> med.med_name[<span class="number">0</span>] <span class="keyword">in</span> allergies:
+            <span class="keyword">return</span> <span class="string">f"⚠️ 过敏警报：{patient.has_name[0]}对{med.med_name[0]}过敏！"</span>
+    <span class="keyword">return</span> <span class="string">"✅ 安全检查通过"</span>
+
+<span class="keyword">print</span>(check_allergy(rx001))
+<span class="comment"># 输出: ✅ 安全检查通过</span>
+
+<span class="comment"># 查询: 谁在治疗张三？</span>
+<span class="keyword">print</span>(<span class="string">"治疗张三的医生:"</span>, patient_zhang.treated_by)
+<span class="comment"># 输出: 治疗张三的医生: [smart-hospital.dr_wang]</span></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- 案例二：电商供应链 -->
+        <!-- ============================================ -->
+        <section class="chapter" id="case2">
+          <div class="chapter-header">
+            <h2>🛒 案例二：电商供应链管理</h2>
+            <p>对供应商→仓库→商品→订单→物流全链路建模</p>
+          </div>
+
+          <div class="content-card">
+            <h3>📋 业务背景</h3>
+            <p>某大型电商平台拥有 10000+ 供应商、500+ 仓库、数百万 SKU，面临：</p>
+            <ul>
+              <li>不同供应商提供的同款商品，属性描述不一致（如"颜色:红色" vs "color:红"）</li>
+              <li>库存在途、在仓、已预定等多状态管理复杂</li>
+              <li>缺货预警不及时，经常出现超卖</li>
+              <li>物流调度缺乏全局视角</li>
+            </ul>
+          </div>
+
+          <div class="content-card">
+            <h3>🗺️ OPERA 五步建模</h3>
+            <div class="model-section">
+              <h5 style="color:var(--primary);">🏷️ O — 对象类型</h5>
+              <div style="margin:0.5rem 0;display:flex;flex-wrap:wrap;gap:0.25rem;">
+                <span class="entity-tag" style="background:var(--primary-light);color:var(--primary-dark);">🏢 供应商 Supplier</span>
+                <span class="entity-tag" style="background:var(--primary-light);color:var(--primary-dark);">🏭 仓库 Warehouse</span>
+                <span class="entity-tag" style="background:var(--success-light);color:#047857;">📦 商品 Product</span>
+                <span class="entity-tag" style="background:var(--success-light);color:#047857;">📑 SKU</span>
+                <span class="entity-tag" style="background:var(--purple-light);color:#6d28d9;">🛍️ 订单 Order</span>
+                <span class="entity-tag" style="background:var(--purple-light);color:#6d28d9;">📋 订单项 OrderItem</span>
+                <span class="entity-tag" style="background:var(--orange-light);color:#c2410c;">🚚 物流单 Shipment</span>
+                <span class="entity-tag" style="background:var(--orange-light);color:#c2410c;">📍 库存记录 Inventory</span>
+                <span class="entity-tag" style="background:var(--pink-light);color:#be185d;">👤 用户 User</span>
+                <span class="entity-tag" style="background:var(--pink-light);color:#be185d;">📂 商品类目 Category</span>
+              </div>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--success);">📝 P — 核心属性</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">属性定义</span>
+                </div>
+                <pre>
+<span class="type">Product</span>:   product_id, name, brand, category, base_price
+<span class="type">SKU</span>:       sku_id, color, size, weight, selling_price
+<span class="type">Inventory</span>: quantity_available, quantity_reserved, quantity_in_transit
+<span class="type">Order</span>:     order_id, status, total_amount, created_at, payment_method
+<span class="type">Warehouse</span>: wh_id, location, capacity, current_utilization
+<span class="type">Shipment</span>:  tracking_no, carrier, estimated_delivery, actual_delivery</pre>
+              </div>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--accent);">⚡ E — 事件/动作</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">核心业务动作</span>
+                </div>
+                <pre>
+<span class="keyword">Action</span> <span class="function">下单</span>(PlaceOrder):
+  触发: User, SKU[], quantities[]
+  前置: <span class="keyword">ALL</span> SKU.inventory.available >= quantity
+  效果: 创建 Order, 扣减 available, 增加 reserved
+
+<span class="keyword">Action</span> <span class="function">发货</span>(Ship):
+  触发: 仓库系统
+  前置: Order.status == <span class="string">"已支付"</span>
+  效果: 创建 Shipment, reserved -= qty, in_transit += qty
+
+<span class="keyword">Event</span> <span class="function">库存预警</span>(LowStockAlert):
+  触发: Inventory.available < threshold
+  效果: 通知采购, 自动生成采购建议</pre>
+              </div>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--pink);">🔗 R — 关系</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">关系模型</span>
+                </div>
+                <pre>
+Supplier ──<span class="function">supplies</span>──→ Product      <span class="comment">// M:N</span>
+Product  ──<span class="function">has_sku</span>──→ SKU           <span class="comment">// 1:N</span>
+Product  ──<span class="function">in_category</span>──→ Category   <span class="comment">// N:1</span>
+Category ──<span class="function">parent_of</span>──→ Category    <span class="comment">// 层级关系(传递)</span>
+Warehouse──<span class="function">stores</span>──→ Inventory     <span class="comment">// 1:N</span>
+Inventory──<span class="function">of_sku</span>──→ SKU           <span class="comment">// N:1</span>
+Order    ──<span class="function">placed_by</span>──→ User        <span class="comment">// N:1</span>
+Order    ──<span class="function">has_items</span>──→ OrderItem   <span class="comment">// 1:N</span>
+OrderItem──<span class="function">of_sku</span>──→ SKU           <span class="comment">// N:1</span>
+Order    ──<span class="function">shipped_via</span>──→ Shipment  <span class="comment">// 1:N</span>
+Shipment ──<span class="function">from_warehouse</span>──→ Warehouse <span class="comment">// N:1</span></pre>
+              </div>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--purple);">📏 A — 公理</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">业务规则</span>
+                </div>
+                <pre>
+<span class="type">A1</span>: Order <span class="function">has_items</span> <span class="keyword">min</span> <span class="number">1</span> OrderItem  <span class="comment">// 订单至少一个商品</span>
+<span class="type">A2</span>: SKU.selling_price > <span class="number">0</span>
+<span class="type">A3</span>: Inventory.available >= <span class="number">0</span>          <span class="comment">// 不能负库存</span>
+<span class="type">A4</span>: <span class="keyword">IF</span> Order.total != SUM(OrderItem.price * qty)
+     <span class="keyword">THEN RAISE</span> DataInconsistencyError      <span class="comment">// 金额校验</span>
+<span class="type">A5</span>: Shipment.actual_delivery >= Order.created_at  <span class="comment">// 时间逻辑</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>💻 Python 实现要点</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">Python — 库存预警推理</span>
+              </div>
+              <pre>
+<span class="keyword">class</span> <span class="type">SupplyChainOntology</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self):
+        self.products = {}
+        self.inventory = {}
+        self.orders = []
+        self.alert_threshold = <span class="number">50</span>
+
+    <span class="keyword">def</span> <span class="function">place_order</span>(self, user, items):
+        <span class="string">"""下单动作 — 含前置条件检查"""</span>
+        <span class="keyword">for</span> sku_id, qty <span class="keyword">in</span> items:
+            inv = self.inventory[sku_id]
+            <span class="keyword">if</span> inv[<span class="string">'available'</span>] < qty:
+                <span class="keyword">raise</span> <span class="type">ValueError</span>(<span class="string">f"超卖! {sku_id} 可用:{inv['available']}, 需要:{qty}"</span>)
+
+        <span class="comment"># 扣减库存</span>
+        <span class="keyword">for</span> sku_id, qty <span class="keyword">in</span> items:
+            self.inventory[sku_id][<span class="string">'available'</span>] -= qty
+            self.inventory[sku_id][<span class="string">'reserved'</span>] += qty
+            self.<span class="function">_check_low_stock</span>(sku_id)
+
+        order = {<span class="string">'user'</span>: user, <span class="string">'items'</span>: items, <span class="string">'status'</span>: <span class="string">'pending'</span>}
+        self.orders.append(order)
+        <span class="keyword">return</span> order
+
+    <span class="keyword">def</span> <span class="function">_check_low_stock</span>(self, sku_id):
+        <span class="string">"""库存预警事件 — 自动推理"""</span>
+        inv = self.inventory[sku_id]
+        <span class="keyword">if</span> inv[<span class="string">'available'</span>] < self.alert_threshold:
+            <span class="keyword">print</span>(<span class="string">f"🚨 库存预警: {sku_id} 仅剩 {inv['available']} 件!"</span>)
+            <span class="keyword">print</span>(<span class="string">f"   → 建议采购 {self.alert_threshold * 3} 件"</span>)
+
+<span class="comment"># 使用示例</span>
+sc = SupplyChainOntology()
+sc.inventory[<span class="string">"SKU-001"</span>] = {<span class="string">'available'</span>: <span class="number">80</span>, <span class="string">'reserved'</span>: <span class="number">0</span>, <span class="string">'in_transit'</span>: <span class="number">0</span>}
+sc.place_order(<span class="string">"user_001"</span>, [(<span class="string">"SKU-001"</span>, <span class="number">35</span>)])
+<span class="comment"># 输出: 🚨 库存预警: SKU-001 仅剩 45 件!</span>
+<span class="comment">#       → 建议采购 150 件</span></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- 案例三：智慧交通 -->
+        <!-- ============================================ -->
+        <section class="chapter" id="case3">
+          <div class="chapter-header">
+            <h2>🚗 案例三：智慧城市交通管理</h2>
+            <p>实时交通流建模，支持信号灯优化与事故响应</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🗺️ OPERA 模型速览</h3>
+            <div class="model-section">
+              <h5 style="color:var(--primary);">🏷️ O — 对象类型</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">类层级</span>
+                </div>
+                <pre>
+<span class="type">RoadSegment</span>（路段）
+  ├── <span class="type">Highway</span>（高速公路段）
+  ├── <span class="type">CityRoad</span>（城市道路段）
+  └── <span class="type">Ramp</span>（匝道）
+<span class="type">Intersection</span>（交叉口）
+<span class="type">TrafficLight</span>（信号灯）
+<span class="type">Vehicle</span>（车辆）
+  ├── <span class="type">Car</span>  ├── <span class="type">Bus</span>  ├── <span class="type">Truck</span>  └── <span class="type">EmergencyVehicle</span>
+<span class="type">TrafficIncident</span>（交通事件）
+  ├── <span class="type">Accident</span>  ├── <span class="type">Congestion</span>  └── <span class="type">RoadWork</span>
+<span class="type">BusRoute</span>（公交线路）
+<span class="type">TrafficSensor</span>（传感器）</pre>
+              </div>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--success);">📝 P — 关键属性</h5>
+              <table class="comparison-table">
+                <thead><tr><th>对象</th><th>属性</th></tr></thead>
+                <tbody>
+                  <tr><td>RoadSegment</td><td>road_id, length, lanes, speed_limit, current_flow, congestion_level</td></tr>
+                  <tr><td>TrafficLight</td><td>light_id, current_state(红/黄/绿), cycle_duration, green_ratio</td></tr>
+                  <tr><td>Vehicle</td><td>plate_no, type, speed, location(lat/lng), heading</td></tr>
+                  <tr><td>TrafficIncident</td><td>inc_id, type, severity(1-5), start_time, end_time, affected_lanes</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--accent);">⚡ E — 核心事件/动作</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">事件/动作</span>
+                </div>
+                <pre>
+<span class="keyword">Action</span> <span class="function">调整信号灯</span>(AdjustSignal):
+  触发: 交通管理中心 | AI系统
+  目标: TrafficLight
+  效果: 修改 green_ratio, cycle_duration
+
+<span class="keyword">Action</span> <span class="function">应急车辆优先</span>(EmergencyPriority):
+  触发: EmergencyVehicle 进入路段
+  效果: 沿途 TrafficLight 全部变绿
+
+<span class="keyword">Event</span> <span class="function">拥堵检测</span>(CongestionDetected):
+  触发: RoadSegment.current_flow > capacity * <span class="number">0.85</span>
+  效果: 通知管理中心, 计算绕行方案
+
+<span class="keyword">Event</span> <span class="function">事故上报</span>(IncidentReported):
+  触发: 传感器检测 / 人工上报
+  效果: 创建 TrafficIncident, 降低路段限速</pre>
+              </div>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--pink);">🔗 R — 关系</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">关系</span>
+                </div>
+                <pre>
+RoadSegment ──<span class="function">connects_to</span>──→ Intersection <span class="comment">// 路段连接交叉口</span>
+Intersection──<span class="function">has_light</span>──→ TrafficLight  <span class="comment">// 交叉口有信号灯</span>
+Vehicle     ──<span class="function">on_road</span>──→ RoadSegment    <span class="comment">// 车辆在路段上</span>
+Incident    ──<span class="function">on_road</span>──→ RoadSegment    <span class="comment">// 事件在路段上</span>
+RoadSegment ──<span class="function">adjacent_to</span>──→ RoadSegment <span class="comment">// 相邻路段</span>
+BusRoute    ──<span class="function">passes_through</span>──→ RoadSegment <span class="comment">// 公交经过</span>
+Sensor      ──<span class="function">monitors</span>──→ RoadSegment   <span class="comment">// 传感器监控</span></pre>
+              </div>
+            </div>
+
+            <div class="model-section">
+              <h5 style="color:var(--purple);">📏 A — 公理</h5>
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="lang">约束</span>
+                </div>
+                <pre>
+<span class="type">A1</span>: Vehicle.speed <= RoadSegment.speed_limit      <span class="comment">// 否则超速警告</span>
+<span class="type">A2</span>: <span class="keyword">IF</span> EmergencyVehicle.on_road(segment)
+     <span class="keyword">THEN</span> segment.adjacent_intersections.lights = GREEN
+<span class="type">A3</span>: Incident.severity ∈ [<span class="number">1</span>,<span class="number">5</span>]
+<span class="type">A4</span>: RoadSegment.congestion = current_flow / (lanes * capacity_per_lane)
+<span class="type">A5</span>: <span class="keyword">IF</span> congestion > <span class="number">0.9</span> <span class="keyword">THEN</span> status = <span class="string">"严重拥堵"</span></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- 案例四：企业知识管理 -->
+        <!-- ============================================ -->
+        <section class="chapter" id="case4">
+          <div class="chapter-header">
+            <h2>📚 案例四：企业知识管理系统</h2>
+            <p>构建企业知识图谱，实现专家发现和知识复用</p>
+          </div>
+
+          <div class="content-card">
+            <h3>📋 业务场景</h3>
+            <p>一家拥有 5000+ 员工的科技公司，期望：</p>
+            <ul>
+              <li>快速找到某技术领域的内部专家</li>
+              <li>了解哪些项目使用了特定技术</li>
+              <li>新员工快速了解相关知识文档</li>
+              <li>避免重复造轮子——发现已有的解决方案</li>
+            </ul>
+          </div>
+
+          <div class="content-card">
+            <h3>🗺️ OPERA 模型</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">完整 OPERA 建模</span>
+              </div>
+              <pre>
+<span class="comment">═══════ O: 对象类型 ═══════</span>
+<span class="type">Employee</span>（员工）           <span class="type">Skill</span>（技能）
+<span class="type">Department</span>（部门）         <span class="type">Project</span>（项目）
+<span class="type">Document</span>（文档）           <span class="type">Technology</span>（技术栈）
+  ├── <span class="type">DesignDoc</span>            <span class="type">KnowledgeArea</span>（知识领域）
+  ├── <span class="type">APIDoc</span>
+  └── <span class="type">Tutorial</span>
+
+<span class="comment">═══════ P: 属性 ═══════</span>
+Employee: name, role, join_date, expertise_level
+Skill:    skill_name, category, difficulty
+Project:  project_name, status, start_date, end_date
+Document: title, author, created_at, tags[], views
+
+<span class="comment">═══════ E: 事件/动作 ═══════</span>
+<span class="keyword">Action</span> <span class="function">查找专家</span>(FindExpert):
+  输入: Skill 或 Technology
+  逻辑: 查找 Employee WHERE has_skill(target) AND expertise_level >= 3
+  输出: 排序后的专家列表
+
+<span class="keyword">Action</span> <span class="function">推荐文档</span>(RecommendDocs):
+  输入: Employee（新员工）
+  逻辑: 找到员工所在项目 → 项目使用的技术 → 相关文档
+  输出: 推荐阅读列表
+
+<span class="comment">═══════ R: 关系 ═══════</span>
+Employee ──<span class="function">has_skill</span>──→ Skill         <span class="comment">// M:N + 熟练度</span>
+Employee ──<span class="function">works_on</span>──→ Project        <span class="comment">// M:N</span>
+Employee ──<span class="function">authored</span>──→ Document       <span class="comment">// 1:N</span>
+Employee ──<span class="function">in_dept</span>──→ Department      <span class="comment">// N:1</span>
+Project  ──<span class="function">uses_tech</span>──→ Technology    <span class="comment">// M:N</span>
+Document ──<span class="function">covers</span>──→ Technology      <span class="comment">// M:N</span>
+Document ──<span class="function">related_to</span>──→ Document     <span class="comment">// M:N</span>
+Skill    ──<span class="function">part_of</span>──→ KnowledgeArea  <span class="comment">// N:1</span>
+
+<span class="comment">═══════ A: 公理 ═══════</span>
+<span class="type">A1</span>: Employee.expertise_level ∈ [<span class="number">1</span>,<span class="number">5</span>]
+<span class="type">A2</span>: Document <span class="keyword">must have</span> authored_by <span class="keyword">min</span> <span class="number">1</span> Employee
+<span class="type">A3</span>: <span class="keyword">IF</span> Employee works_on Project P
+     <span class="keyword">AND</span> P uses_tech T
+     <span class="keyword">THEN</span> Employee is candidate_expert_of T  <span class="comment">// 推理专家</span>
+<span class="type">A4</span>: <span class="keyword">IF</span> Employee has_skill S <span class="keyword">AND</span> expertise >= <span class="number">4</span>
+     <span class="keyword">THEN</span> Employee is <span class="type">Expert</span> of S</pre>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>💻 Python 实现：专家推荐引擎</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">Python — 知识图谱查询</span>
+              </div>
+              <pre>
+<span class="keyword">class</span> <span class="type">KnowledgeOntology</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self):
+        self.employees = {}
+        self.projects = {}
+        self.skills = {}
+        self.documents = {}
+
+    <span class="keyword">def</span> <span class="function">find_expert</span>(self, tech_name, min_level=<span class="number">3</span>):
+        <span class="string">"""查找专家 — 基于 Ontology 关系推理"""</span>
+        experts = []
+        <span class="keyword">for</span> emp <span class="keyword">in</span> self.employees.values():
+            <span class="comment"># 直接技能匹配</span>
+            <span class="keyword">for</span> skill, level <span class="keyword">in</span> emp[<span class="string">'skills'</span>]:
+                <span class="keyword">if</span> tech_name.lower() <span class="keyword">in</span> skill.lower() <span class="keyword">and</span> level >= min_level:
+                    experts.append({
+                        <span class="string">'name'</span>: emp[<span class="string">'name'</span>],
+                        <span class="string">'level'</span>: level,
+                        <span class="string">'source'</span>: <span class="string">'直接技能'</span>
+                    })
+            <span class="comment"># 项目经验推理 (公理 A3)</span>
+            <span class="keyword">for</span> proj_id <span class="keyword">in</span> emp.get(<span class="string">'projects'</span>, []):
+                proj = self.projects.get(proj_id, {})
+                <span class="keyword">if</span> tech_name <span class="keyword">in</span> proj.get(<span class="string">'technologies'</span>, []):
+                    experts.append({
+                        <span class="string">'name'</span>: emp[<span class="string">'name'</span>],
+                        <span class="string">'level'</span>: <span class="string">'推理(项目经验)'</span>,
+                        <span class="string">'source'</span>: <span class="string">f"参与项目: {proj['name']}"</span>
+                    })
+        <span class="keyword">return</span> sorted(experts, key=<span class="keyword">lambda</span> x: x.get(<span class="string">'level'</span>,<span class="number">0</span>), reverse=<span class="keyword">True</span>)
+
+    <span class="keyword">def</span> <span class="function">recommend_docs</span>(self, employee_id):
+        <span class="string">"""推荐文档 — 基于 Ontology 关系链"""</span>
+        emp = self.employees[employee_id]
+        techs = set()
+        <span class="comment"># 通过项目找到相关技术</span>
+        <span class="keyword">for</span> proj_id <span class="keyword">in</span> emp.get(<span class="string">'projects'</span>, []):
+            techs.update(self.projects[proj_id].get(<span class="string">'technologies'</span>, []))
+        <span class="comment"># 通过技术找到相关文档</span>
+        recommended = []
+        <span class="keyword">for</span> doc <span class="keyword">in</span> self.documents.values():
+            <span class="keyword">if</span> techs & set(doc.get(<span class="string">'covers'</span>, [])):
+                recommended.append(doc)
+        <span class="keyword">return</span> sorted(recommended, key=<span class="keyword">lambda</span> d: d[<span class="string">'views'</span>], reverse=<span class="keyword">True</span>)
+
+<span class="comment"># 使用示例</span>
+kg = KnowledgeOntology()
+kg.employees[<span class="string">"e001"</span>] = {
+    <span class="string">'name'</span>: <span class="string">'李工'</span>, <span class="string">'skills'</span>: [(<span class="string">'Python'</span>, <span class="number">5</span>), (<span class="string">'Ontology'</span>, <span class="number">4</span>)],
+    <span class="string">'projects'</span>: [<span class="string">'p001'</span>]
+}
+kg.projects[<span class="string">"p001"</span>] = {<span class="string">'name'</span>: <span class="string">'知识图谱平台'</span>, <span class="string">'technologies'</span>: [<span class="string">'Python'</span>, <span class="string">'OWL'</span>, <span class="string">'Neo4j'</span>]}
+
+experts = kg.find_expert(<span class="string">"Python"</span>)
+<span class="keyword">print</span>(<span class="string">"Python 专家:"</span>, experts)
+<span class="comment"># [{'name': '李工', 'level': 5, 'source': '直接技能'},
+#  {'name': '李工', 'level': '推理(项目经验)', 'source': '参与项目: 知识图谱平台'}]</span></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 总结 -->
+        <section class="chapter" id="summary">
+          <div class="chapter-header">
+            <h2>📊 四大案例对比总结</h2>
+            <p>不同领域的 Ontology 有不同侧重，但 OPERA 框架都适用</p>
+          </div>
+          <div class="content-card">
+            <table class="comparison-table">
+              <thead>
+                <tr><th>维度</th><th>🏥 智慧医院</th><th>🛒 电商供应链</th><th>🚗 智慧交通</th><th>📚 知识管理</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>O 核心对象</td>
+                  <td>患者、医生、处方</td>
+                  <td>商品、订单、库存</td>
+                  <td>路段、车辆、信号灯</td>
+                  <td>员工、技能、文档</td>
+                </tr>
+                <tr>
+                  <td>P 关键属性</td>
+                  <td>过敏史、诊断</td>
+                  <td>库存量、价格</td>
+                  <td>拥堵度、限速</td>
+                  <td>熟练度、浏览量</td>
+                </tr>
+                <tr>
+                  <td>E 核心动作</td>
+                  <td>开处方、入院</td>
+                  <td>下单、发货</td>
+                  <td>调信号灯、应急</td>
+                  <td>找专家、推荐文档</td>
+                </tr>
+                <tr>
+                  <td>R 关键关系</td>
+                  <td>treats, for_patient</td>
+                  <td>supplies, contains</td>
+                  <td>on_road, adjacent</td>
+                  <td>has_skill, uses_tech</td>
+                </tr>
+                <tr>
+                  <td>A 核心约束</td>
+                  <td>过敏检查</td>
+                  <td>库存≥0</td>
+                  <td>速度≤限速</td>
+                  <td>专家推理</td>
+                </tr>
+                <tr>
+                  <td>推理亮点</td>
+                  <td>药物安全推理</td>
+                  <td>缺货预警</td>
+                  <td>拥堵传播分析</td>
+                  <td>自动专家发现</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="callout callout-success" style="margin-top:1rem;">
+              <strong>🎯 关键洞察</strong>
+              尽管四个案例的领域截然不同，但 OPERA 框架的五步流程都完美适用。这正是"万能建模框架"的含义——不是给你固定的模板，而是给你一个<strong>思考的脚手架</strong>。
+            </div>
+          </div>
+        </section>
+
+        <div class="page-nav">
+          <a href="course2-framework.html">← 上一课：OPERA 建模框架</a>
+          <a href="course4-llm.html">下一课：Ontology × LLM →</a>
+        </div>
+      </main>
+    </div>
+
+    <footer class="footer">
+      <p>Ontology 本体论交互式课程 · 第三课：多领域实战案例</p>
+    </footer>
+  </div>
+
+  <script src="js/scripts.js"></script>
+</body>
+</html>

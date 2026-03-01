@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第四课：Ontology × LLM · 本体论交互式课程</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .arch-diagram {
+      background: var(--gray-900);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      margin: 1rem 0;
+      color: #e2e8f0;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .fusion-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .fusion-side {
+      padding: 1.25rem;
+      border-radius: var(--radius-lg);
+      border: 2px solid;
+    }
+    .fusion-side h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .fusion-side ul {
+      padding-left: 1.25rem;
+      font-size: 0.88rem;
+    }
+    .fusion-side li { margin-bottom: 0.3rem; }
+    @media (max-width: 640px) {
+      .fusion-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="logo">🧠</div>
+      <span>Ontology 课堂</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="course1-basics.html">基础篇</a></li>
+      <li><a href="course2-framework.html">建模框架</a></li>
+      <li><a href="course3-cases.html">实战案例</a></li>
+      <li><a href="course4-llm.html" class="active">Ontology×LLM</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <section class="course-hero" style="background: linear-gradient(135deg, #134e4a 0%, #0d9488 50%, #14b8a6 100%);">
+      <div class="container">
+        <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;">
+          <span class="badge" style="background:rgba(255,255,255,0.15);color:white;">第四课</span>
+          <span class="badge" style="background:rgba(20,184,166,0.3);color:#99f6e4;">前沿探索</span>
+        </div>
+        <h1>🤖 Ontology × LLM — 结构与智能的融合</h1>
+        <p class="subtitle">当本体论遇上大语言模型，会产生什么化学反应？</p>
+      </div>
+    </section>
+
+    <div class="layout-with-sidebar">
+      <aside class="sidebar">
+        <nav>
+          <ul class="sidebar-nav">
+            <li class="section-title">课程章节</li>
+            <li><a href="#ch1" class="active">1. LLM 的局限性</a></li>
+            <li><a href="#ch2">2. 互补关系</a></li>
+            <li><a href="#ch3">3. RAG + Ontology</a></li>
+            <li><a href="#ch4">4. Ontology 增强 Agent</a></li>
+            <li><a href="#ch5">5. 神经符号系统</a></li>
+            <li><a href="#ch6">6. 实战代码</a></li>
+            <li><a href="#ch7">7. 未来展望</a></li>
+            <li><a href="#quiz-final">✅ 章节测验</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main>
+        <!-- 第 1 章 -->
+        <section class="chapter" id="ch1">
+          <div class="chapter-header">
+            <h2>1. LLM 很强，但也有"阿喀琉斯之踵"</h2>
+            <p>大语言模型的能力边界与 Ontology 能弥补的缺陷</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🔥 LLM 的五大局限</h3>
+            <table class="comparison-table">
+              <thead><tr><th>局限</th><th>表现</th><th>Ontology 如何帮助</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>🎭 幻觉 (Hallucination)</td>
+                  <td>自信地输出错误信息</td>
+                  <td>Ontology 提供"事实锚点"，约束输出范围</td>
+                </tr>
+                <tr>
+                  <td>📅 知识过时</td>
+                  <td>训练数据有截止日期</td>
+                  <td>Ontology 可实时更新，提供最新知识</td>
+                </tr>
+                <tr>
+                  <td>🏢 缺乏领域知识</td>
+                  <td>通用模型不了解你公司的架构</td>
+                  <td>领域 Ontology 注入企业专属知识</td>
+                </tr>
+                <tr>
+                  <td>🧮 推理不可靠</td>
+                  <td>多步逻辑推理常出错</td>
+                  <td>Ontology 推理引擎保证逻辑正确性</td>
+                </tr>
+                <tr>
+                  <td>📊 不可解释</td>
+                  <td>无法解释为什么给出某答案</td>
+                  <td>Ontology 提供可追溯的推理路径</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="content-card">
+            <h3>🎯 一个真实的问题</h3>
+            <div style="background:var(--gray-50);border-radius:var(--radius);padding:1rem;font-size:0.92rem;line-height:1.8;">
+              <p>💬 <strong>用户问 ChatGPT：</strong>"我们公司的智能制造项目现在进展如何？负责人是谁？"</p>
+              <p>🤖 <strong>ChatGPT：</strong>"抱歉，作为 AI 模型，我没有访问贵公司内部系统的能力……"</p>
+              <p style="margin-top:0.75rem;">💬 <strong>如果有 Ontology 驱动的 AI 系统：</strong></p>
+              <p>🤖 <strong>AI：</strong>"智能制造项目（P-2024-015）目前处于 Phase 2 阶段，进度 67%。负责人为张工（工号 E1042），该项目使用 Python、ROS2、OWL 技术栈，最新设计文档更新于上周三。需要我帮你联系张工吗？"</p>
+            </div>
+            <div class="callout callout-info" style="margin-top:1rem;">
+              <strong>💡 差距在哪？</strong>
+              第二个 AI 背后有企业 Ontology 作为"知识底座"——它不仅知道"项目"这个概念的含义，还知道项目与人、技术、文档之间的关系，并能通过关系链查询出完整信息。
+            </div>
+          </div>
+        </section>
+
+        <!-- 第 2 章 -->
+        <section class="chapter" id="ch2">
+          <div class="chapter-header">
+            <h2>2. Ontology 与 LLM 的互补关系</h2>
+            <p>不是替代，而是"1 + 1 > 2"的协同</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🤝 天生互补</h3>
+            <div class="fusion-card">
+              <div class="fusion-side" style="border-color:var(--teal);background:var(--teal-light);">
+                <h4 style="color:#0d9488;">🤖 LLM 擅长</h4>
+                <ul>
+                  <li>理解自然语言（模糊、口语化）</li>
+                  <li>生成流畅的文本回答</li>
+                  <li>处理非结构化数据</li>
+                  <li>上下文理解和对话</li>
+                  <li>跨语言、跨领域泛化</li>
+                </ul>
+              </div>
+              <div class="fusion-side" style="border-color:var(--primary);background:var(--primary-50);">
+                <h4 style="color:var(--primary-dark);">🧠 Ontology 擅长</h4>
+                <ul>
+                  <li>精确的知识表示和定义</li>
+                  <li>逻辑推理和一致性保证</li>
+                  <li>结构化查询（精确匹配）</li>
+                  <li>领域知识和业务规则</li>
+                  <li>可解释、可审计的决策</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="callout callout-purple">
+              <strong>💎 核心思想</strong>
+              <strong>LLM 是"理解和表达的大脑"，Ontology 是"知识和规则的骨架"。</strong><br>
+              把它们结合，就得到了一个既能听懂人话、又有结构化知识、还能保证逻辑正确的 AI 系统。这就是 Palantir AIP 的核心思路。
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🏗️ 融合架构全景</h3>
+            <div class="arch-diagram">
+┌──────────────────────────────────────────────────────────────┐
+│                     用户界面 (自然语言)                         │
+│   "上周有哪些紧急订单延迟了？自动催促供应商"                      │
+└────────────────────────┬─────────────────────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    🤖 LLM 层 (理解 + 生成)                     │
+│                                                              │
+│  ① 意图识别: "查询" + "催促"                                   │
+│  ② 实体提取: 时间=上周, 类型=紧急, 状态=延迟                     │
+│  ③ 生成 Ontology 查询                                         │
+│  ④ 用查询结果生成自然语言回答                                    │
+│  ⑤ 调用 Action: 发送催促通知                                    │
+└────────────┬────────────────────────────┬────────────────────┘
+             │ 查询                       │ 调用 Action
+             ▼                            ▼
+┌──────────────────────────────────────────────────────────────┐
+│                  🧠 Ontology 层 (知识 + 规则)                   │
+│                                                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌───────────────────┐   │
+│  │ Object Types │  │ Relations   │  │  Actions          │   │
+│  │ ·Order      │  │ ·placed_by  │  │  ·SendReminder()  │   │
+│  │ ·Supplier   │  │ ·supplied_by│  │  ·EscalateOrder() │   │
+│  │ ·Product    │  │ ·contains   │  │  ·AdjustPriority()│   │
+│  └─────────────┘  └─────────────┘  └───────────────────┘   │
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │ Axioms: urgent=true AND status=delayed → auto_alert │    │
+│  └─────────────────────────────────────────────────────┘    │
+└────────────────────────┬─────────────────────────────────────┘
+                         │ 数据查询
+                         ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    📊 数据层                                   │
+│        SQL  ·  MongoDB  ·  API  ·  Kafka  ·  S3              │
+└──────────────────────────────────────────────────────────────┘</div>
+          </div>
+        </section>
+
+        <!-- 第 3 章 -->
+        <section class="chapter" id="ch3">
+          <div class="chapter-header">
+            <h2>3. RAG + Ontology — 让检索更智能</h2>
+            <p>传统 RAG 只做文本匹配，加入 Ontology 后能做语义推理</p>
+          </div>
+
+          <div class="content-card">
+            <h3>📊 传统 RAG vs Ontology-RAG 对比</h3>
+            <div class="fusion-card">
+              <div class="fusion-side" style="border-color:var(--gray-300);background:var(--gray-50);">
+                <h4>📝 传统 RAG</h4>
+                <ul>
+                  <li>文档 → 切片 → Embedding</li>
+                  <li>用户问题 → Embedding → 向量相似度搜索</li>
+                  <li>返回最相似的文本段落</li>
+                  <li>⚠️ 只能匹配"含有相似词"的段落</li>
+                  <li>⚠️ 缺乏深层语义理解</li>
+                </ul>
+              </div>
+              <div class="fusion-side" style="border-color:var(--primary);background:var(--primary-50);">
+                <h4 style="color:var(--primary-dark);">🧠 Ontology 增强的 RAG</h4>
+                <ul>
+                  <li>文档 → 切片 → Embedding <strong>+ 实体标注</strong></li>
+                  <li>用户问题 → LLM 提取实体 → <strong>Ontology 扩展查询</strong></li>
+                  <li>利用关系链找到<strong>隐含相关</strong>的内容</li>
+                  <li>✅ 能理解"心脏病治疗"和"冠心病用药"相关</li>
+                  <li>✅ 能通过 is-a 关系扩展查询范围</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🔍 具体例子</h3>
+            <p><strong>用户问：</strong>"阿司匹林的副作用有哪些？"</p>
+            
+            <div class="tabs">
+              <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab(this, 'tab-trad-rag')">传统 RAG</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-onto-rag')">Ontology RAG</button>
+              </div>
+              <div class="tab-panel active" id="tab-trad-rag">
+                <p><strong>传统 RAG 的做法：</strong></p>
+                <ol>
+                  <li>搜索包含"阿司匹林"和"副作用"的文档片段</li>
+                  <li>返回匹配结果</li>
+                </ol>
+                <p>⚠️ 如果文档中写的是"乙酰水杨酸的不良反应"，传统 RAG <strong>可能找不到</strong>，因为文字不一致。</p>
+              </div>
+              <div class="tab-panel" id="tab-onto-rag">
+                <p><strong>Ontology RAG 的做法：</strong></p>
+                <ol>
+                  <li>LLM 识别实体：药品=阿司匹林</li>
+                  <li>查询 Ontology：阿司匹林 <code>same_as</code> 乙酰水杨酸</li>
+                  <li>Ontology 扩展：阿司匹林 <code>is_a</code> NSAID（非甾体抗炎药）</li>
+                  <li>搜索同时包含"阿司匹林 OR 乙酰水杨酸 OR NSAID"的文档</li>
+                  <li>还能搜索 NSAID 类药物的共同副作用</li>
+                </ol>
+                <p>✅ 能找到更多相关内容，结果更全面准确。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>💻 Ontology-RAG 代码示例</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">Python — Ontology 增强的 RAG</span>
+              </div>
+              <pre>
+<span class="keyword">class</span> <span class="type">OntologyRAG</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, ontology, vector_db, llm):
+        self.onto = ontology    <span class="comment"># Ontology 知识库</span>
+        self.vdb = vector_db    <span class="comment"># 向量数据库</span>
+        self.llm = llm          <span class="comment"># 大语言模型</span>
+
+    <span class="keyword">def</span> <span class="function">query</span>(self, user_question):
+        <span class="comment"># 第一步：LLM 提取实体</span>
+        entities = self.llm.extract_entities(user_question)
+        <span class="comment"># entities = [{"type": "Medication", "value": "阿司匹林"}]</span>
+
+        <span class="comment"># 第二步：Ontology 扩展查询</span>
+        expanded_terms = set()
+        <span class="keyword">for</span> entity <span class="keyword">in</span> entities:
+            <span class="comment"># 找同义词</span>
+            synonyms = self.onto.get_synonyms(entity[<span class="string">'value'</span>])
+            expanded_terms.update(synonyms)
+            <span class="comment"># 找上位概念 (is-a)</span>
+            parents = self.onto.get_parents(entity[<span class="string">'value'</span>])
+            expanded_terms.update(parents)
+            <span class="comment"># 找相关实体 (has_relation)</span>
+            related = self.onto.get_related(entity[<span class="string">'value'</span>])
+            expanded_terms.update(related)
+
+        <span class="keyword">print</span>(<span class="string">f"原始实体: {entities}"</span>)
+        <span class="keyword">print</span>(<span class="string">f"扩展后: {expanded_terms}"</span>)
+        <span class="comment"># 扩展后: {"阿司匹林", "乙酰水杨酸", "NSAID", "血小板抑制剂"}</span>
+
+        <span class="comment"># 第三步：增强检索</span>
+        docs = self.vdb.search(
+            query=user_question,
+            filter_terms=expanded_terms,
+            top_k=<span class="number">10</span>
+        )
+
+        <span class="comment"># 第四步：Ontology 提供上下文</span>
+        context = self.onto.get_entity_context(<span class="string">"阿司匹林"</span>)
+        <span class="comment"># context = "阿司匹林(乙酰水杨酸)是一种NSAID类药物,</span>
+        <span class="comment">#   常用于抗血小板、解热镇痛..."</span>
+
+        <span class="comment"># 第五步：LLM 生成回答</span>
+        answer = self.llm.generate(
+            question=user_question,
+            retrieved_docs=docs,
+            ontology_context=context,
+            instructions=<span class="string">"基于检索到的文档和本体知识回答"</span>
+        )
+        <span class="keyword">return</span> answer</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 第 4 章 -->
+        <section class="chapter" id="ch4">
+          <div class="chapter-header">
+            <h2>4. Ontology 驱动的 AI Agent</h2>
+            <p>给 AI Agent 一个"结构化的世界观"和"可执行的操作手册"</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🤖 为什么 Agent 需要 Ontology？</h3>
+            <p>当前的 AI Agent 通常依赖工具调用（Function Calling）来执行操作。但问题是：</p>
+            <ul>
+              <li>❌ 工具列表是扁平的——Agent 不理解工具之间的语义关系</li>
+              <li>❌ 没有领域模型——Agent 不知道操作的上下文和约束</li>
+              <li>❌ 缺乏安全护栏——Agent 可能执行违反业务规则的操作</li>
+            </ul>
+
+            <div class="callout callout-info">
+              <strong>💡 Ontology 为 Agent 提供的三大能力</strong>
+              <ol style="margin-top:0.5rem;">
+                <li><strong>世界模型：</strong>Agent 知道领域中有什么(O)、它们是什么样(P)、怎么连接(R)</li>
+                <li><strong>操作手册：</strong>Agent 知道能做什么(E)、什么条件下能做(A)</li>
+                <li><strong>安全护栏：</strong>公理(A)确保 Agent 不会违反业务规则</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>⚙️ Ontology Agent 架构</h3>
+            <div class="arch-diagram">
+用户: "帮我把张三从内科转到心外科，安排明天的手术"
+
+             ┌─────────────┐
+             │   LLM Agent  │
+             │  (意图理解)   │
+             └──────┬───────┘
+                    │ 解析出两个 Action
+        ┌───────────┼───────────┐
+        ▼                       ▼
+ ┌──────────────┐      ┌──────────────┐
+ │ Action: 转科  │      │ Action: 排手术│
+ │ Transfer()   │      │ Schedule()   │
+ └──────┬───────┘      └──────┬───────┘
+        │                      │
+        ▼                      ▼
+ ┌──────────────────────────────────────┐
+ │         Ontology 层: 规则检查          │
+ │                                      │
+ │ ✅ 张三是 InPatient → 可以转科        │
+ │ ✅ 心外科有空余床位 → 可以接收         │
+ │ ✅ 明天手术室有档期 → 可以排期         │
+ │ ⚠️ 张三有青霉素过敏 → 手术用药需注意   │
+ │ ❌ 张三尚未签署手术同意书 → 阻止排期    │
+ └──────────────────────────────────────┘
+        │
+        ▼
+ Agent 回复: "已将张三转至心外科。但手术排期被拒绝，
+ 因为患者尚未签署手术同意书。需要我发送签署提醒吗？
+ 另外提醒：张三对青霉素过敏，手术用药请注意。"</div>
+
+            <p style="margin-top:1rem;">注意 Agent 的行为是多么"聪明"——它不仅执行了操作，还：</p>
+            <ul>
+              <li>✅ 自动检查前置条件（公理 A）</li>
+              <li>✅ 遇到阻塞时解释原因</li>
+              <li>⚠️ 主动提醒潜在风险（过敏药推理）</li>
+              <li>💡 提出下一步建议</li>
+            </ul>
+          </div>
+
+          <div class="content-card">
+            <h3>💻 Ontology Agent 代码框架</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">Python — Ontology-Driven Agent</span>
+              </div>
+              <pre>
+<span class="keyword">class</span> <span class="type">OntologyAgent</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, llm, ontology):
+        self.llm = llm
+        self.onto = ontology
+
+    <span class="keyword">def</span> <span class="function">process</span>(self, user_input):
+        <span class="comment"># 1. LLM 解析意图和实体</span>
+        parsed = self.llm.parse(user_input)
+        <span class="comment"># parsed = {</span>
+        <span class="comment">#   "intents": ["transfer", "schedule_surgery"],</span>
+        <span class="comment">#   "entities": {"patient": "张三", "target_dept": "心外科"}</span>
+        <span class="comment"># }</span>
+
+        results = []
+        <span class="keyword">for</span> intent <span class="keyword">in</span> parsed[<span class="string">'intents'</span>]:
+            <span class="comment"># 2. 从 Ontology 获取 Action 定义</span>
+            action = self.onto.get_action(intent)
+
+            <span class="comment"># 3. 检查前置条件 (公理)</span>
+            preconditions = self.onto.check_preconditions(
+                action, parsed[<span class="string">'entities'</span>]
+            )
+
+            <span class="keyword">if</span> preconditions.all_met:
+                <span class="comment"># 4. 执行动作</span>
+                result = self.onto.execute_action(
+                    action, parsed[<span class="string">'entities'</span>]
+                )
+                results.append({<span class="string">'action'</span>: intent, <span class="string">'status'</span>: <span class="string">'success'</span>, <span class="string">'result'</span>: result})
+            <span class="keyword">else</span>:
+                <span class="comment"># 5. 返回阻塞原因</span>
+                results.append({
+                    <span class="string">'action'</span>: intent,
+                    <span class="string">'status'</span>: <span class="string">'blocked'</span>,
+                    <span class="string">'reason'</span>: preconditions.failures
+                })
+
+            <span class="comment"># 6. Ontology 推理额外提醒</span>
+            warnings = self.onto.infer_warnings(parsed[<span class="string">'entities'</span>])
+            <span class="keyword">if</span> warnings:
+                results.append({<span class="string">'type'</span>: <span class="string">'warning'</span>, <span class="string">'details'</span>: warnings})
+
+        <span class="comment"># 7. LLM 生成自然语言回复</span>
+        response = self.llm.generate_response(results)
+        <span class="keyword">return</span> response</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 第 5 章 -->
+        <section class="chapter" id="ch5">
+          <div class="chapter-header">
+            <h2>5. 神经符号系统 — AI 的未来方向</h2>
+            <p>将神经网络的感知能力与符号系统的推理能力结合</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🔬 什么是神经符号系统？</h3>
+            <p><strong>Neurosymbolic AI</strong> 结合了两种 AI 范式：</p>
+
+            <div class="fusion-card">
+              <div class="fusion-side" style="border-color:var(--teal);background:var(--teal-light);">
+                <h4 style="color:#0d9488;">🧬 神经网络 (Sub-symbolic)</h4>
+                <ul>
+                  <li>基于数据学习模式</li>
+                  <li>擅长感知：视觉、语音、NLU</li>
+                  <li>容错性强，能处理噪声</li>
+                  <li>缺点：黑箱、不可解释、不可靠推理</li>
+                </ul>
+              </div>
+              <div class="fusion-side" style="border-color:var(--purple);background:var(--purple-light);">
+                <h4 style="color:#6d28d9;">🔣 符号系统 (Symbolic)</h4>
+                <ul>
+                  <li>基于规则和逻辑</li>
+                  <li>擅长推理：演绎、归纳、溯因</li>
+                  <li>可解释、可审计</li>
+                  <li>缺点：需要人工构建、脆弱</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="callout callout-purple">
+              <strong>💎 核心洞察</strong>
+              Ontology 正是"符号系统"的最佳代表。当你把 Ontology（符号/知识）与 LLM（神经网络/感知）结合，就构成了最前沿的<strong>神经符号系统</strong>。
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>📚 学术前沿</h3>
+            <div class="accordion">
+              <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                  <span>📄 论文：Fine-tuning LLMs via Ontological Reasoning (arXiv 2023)</span>
+                  <span class="arrow-icon">▶</span>
+                </div>
+                <div class="accordion-body">
+                  <div class="accordion-body-inner">
+                    <p><strong>核心思想：</strong>利用企业知识图谱（EKG）的本体推理能力来增强 LLM 的微调过程。</p>
+                    <p><strong>方法：</strong></p>
+                    <ul>
+                      <li>构建企业知识图谱，用 OWL 定义本体</li>
+                      <li>用本体推理引擎发现隐含知识</li>
+                      <li>将推理得到的知识作为额外训练数据</li>
+                      <li>微调 LLM 使其具备领域推理能力</li>
+                    </ul>
+                    <p><strong>效果：</strong>在企业 QA 任务上，准确率提升 23%，幻觉率降低 40%。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                  <span>🏢 实践：Palantir AIP 的神经符号架构</span>
+                  <span class="arrow-icon">▶</span>
+                </div>
+                <div class="accordion-body">
+                  <div class="accordion-body-inner">
+                    <p><strong>Palantir 的方案</strong>可以看作是工业界最成功的神经符号系统之一：</p>
+                    <ul>
+                      <li><strong>Ontology 层（符号）：</strong>Object Types, Properties, Relations, Actions, Axioms</li>
+                      <li><strong>LLM 层（神经）：</strong>理解自然语言、生成回答、调用 Action</li>
+                      <li><strong>融合机制：</strong>LLM 通过 Ontology 的 API "看到"结构化数据，而不是直接访问原始数据库</li>
+                    </ul>
+                    <p><strong>启示：</strong>不需要等 AGI，用 Ontology + 现有 LLM 就能构建强大的 AI 系统。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 第 6 章 -->
+        <section class="chapter" id="ch6">
+          <div class="chapter-header">
+            <h2>6. 完整实战：构建 Ontology 增强的 QA 系统</h2>
+            <p>把前面学到的所有知识，整合成一个可运行的系统</p>
+          </div>
+
+          <div class="content-card">
+            <h3>💻 完整代码示例</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">Python — 完整的 Ontology 增强 QA</span>
+              </div>
+              <pre>
+<span class="keyword">class</span> <span class="type">MedicalOntology</span>:
+    <span class="string">"""医疗领域本体 — 知识库"""</span>
+    <span class="keyword">def</span> <span class="function">__init__</span>(self):
+        <span class="comment"># 知识图谱（简化版）</span>
+        self.entities = {
+            <span class="string">"阿司匹林"</span>: {
+                <span class="string">"type"</span>: <span class="string">"Medication"</span>,
+                <span class="string">"synonyms"</span>: [<span class="string">"乙酰水杨酸"</span>, <span class="string">"Aspirin"</span>],
+                <span class="string">"is_a"</span>: [<span class="string">"NSAID"</span>, <span class="string">"抗血小板药"</span>],
+                <span class="string">"side_effects"</span>: [<span class="string">"胃肠道出血"</span>, <span class="string">"过敏反应"</span>, <span class="string">"耳鸣"</span>],
+                <span class="string">"contraindications"</span>: [<span class="string">"消化性溃疡"</span>, <span class="string">"血友病"</span>],
+                <span class="string">"interactions"</span>: [<span class="string">"华法林"</span>, <span class="string">"布洛芬"</span>]
+            },
+            <span class="string">"NSAID"</span>: {
+                <span class="string">"type"</span>: <span class="string">"DrugCategory"</span>,
+                <span class="string">"members"</span>: [<span class="string">"阿司匹林"</span>, <span class="string">"布洛芬"</span>, <span class="string">"萘普生"</span>],
+                <span class="string">"common_side_effects"</span>: [<span class="string">"胃部不适"</span>, <span class="string">"肾脏负担"</span>]
+            },
+            <span class="string">"高血压"</span>: {
+                <span class="string">"type"</span>: <span class="string">"Disease"</span>,
+                <span class="string">"is_a"</span>: [<span class="string">"心血管疾病"</span>],
+                <span class="string">"common_medications"</span>: [<span class="string">"氨氯地平"</span>, <span class="string">"缬沙坦"</span>],
+                <span class="string">"risk_factors"</span>: [<span class="string">"肥胖"</span>, <span class="string">"高盐饮食"</span>, <span class="string">"吸烟"</span>]
+            }
+        }
+        <span class="comment"># 推理规则 (公理)</span>
+        self.rules = [
+            {
+                <span class="string">"if"</span>: <span class="keyword">lambda</span> p: <span class="string">"消化性溃疡"</span> <span class="keyword">in</span> p.get(<span class="string">"diagnoses"</span>,[]),
+                <span class="string">"then"</span>: <span class="string">"⚠️ 禁用 NSAID 类药物（含阿司匹林）"</span>
+            },
+            {
+                <span class="string">"if"</span>: <span class="keyword">lambda</span> p: <span class="string">"华法林"</span> <span class="keyword">in</span> p.get(<span class="string">"medications"</span>,[]),
+                <span class="string">"then"</span>: <span class="string">"⚠️ 与阿司匹林联用会增加出血风险"</span>
+            }
+        ]
+
+    <span class="keyword">def</span> <span class="function">expand_query</span>(self, entity_name):
+        <span class="string">"""基于 Ontology 扩展查询范围"""</span>
+        entity = self.entities.get(entity_name, {})
+        terms = {entity_name}
+        terms.update(entity.get(<span class="string">'synonyms'</span>, []))
+        terms.update(entity.get(<span class="string">'is_a'</span>, []))
+        <span class="keyword">return</span> terms
+
+    <span class="keyword">def</span> <span class="function">get_context</span>(self, entity_name):
+        <span class="string">"""获取实体的结构化上下文"""</span>
+        entity = self.entities.get(entity_name, {})
+        <span class="keyword">if not</span> entity:
+            <span class="keyword">return</span> <span class="string">""</span>
+        ctx = <span class="string">f"【{entity_name}】\n"</span>
+        ctx += <span class="string">f"类型: {entity.get('type','')}\n"</span>
+        <span class="keyword">if</span> <span class="string">'is_a'</span> <span class="keyword">in</span> entity:
+            ctx += <span class="string">f"分类: {', '.join(entity['is_a'])}\n"</span>
+        <span class="keyword">if</span> <span class="string">'side_effects'</span> <span class="keyword">in</span> entity:
+            ctx += <span class="string">f"副作用: {', '.join(entity['side_effects'])}\n"</span>
+        <span class="keyword">if</span> <span class="string">'contraindications'</span> <span class="keyword">in</span> entity:
+            ctx += <span class="string">f"禁忌: {', '.join(entity['contraindications'])}\n"</span>
+        <span class="keyword">if</span> <span class="string">'interactions'</span> <span class="keyword">in</span> entity:
+            ctx += <span class="string">f"药物相互作用: {', '.join(entity['interactions'])}\n"</span>
+        <span class="keyword">return</span> ctx
+
+    <span class="keyword">def</span> <span class="function">check_safety</span>(self, patient_profile, medication):
+        <span class="string">"""基于公理的安全推理"""</span>
+        warnings = []
+        <span class="keyword">for</span> rule <span class="keyword">in</span> self.rules:
+            <span class="keyword">if</span> rule[<span class="string">'if'</span>](patient_profile):
+                warnings.append(rule[<span class="string">'then'</span>])
+        <span class="keyword">return</span> warnings
+
+
+<span class="comment"># ===== 使用示例 =====</span>
+onto = MedicalOntology()
+
+<span class="comment"># 1. 查询扩展</span>
+expanded = onto.expand_query(<span class="string">"阿司匹林"</span>)
+<span class="keyword">print</span>(<span class="string">"扩展查询:"</span>, expanded)
+<span class="comment"># {'阿司匹林', '乙酰水杨酸', 'Aspirin', 'NSAID', '抗血小板药'}</span>
+
+<span class="comment"># 2. 获取上下文</span>
+context = onto.get_context(<span class="string">"阿司匹林"</span>)
+<span class="keyword">print</span>(context)
+
+<span class="comment"># 3. 安全推理</span>
+patient = {
+    <span class="string">"name"</span>: <span class="string">"张三"</span>,
+    <span class="string">"diagnoses"</span>: [<span class="string">"高血压"</span>, <span class="string">"消化性溃疡"</span>],
+    <span class="string">"medications"</span>: [<span class="string">"华法林"</span>]
+}
+warnings = onto.check_safety(patient, <span class="string">"阿司匹林"</span>)
+<span class="keyword">print</span>(<span class="string">"安全警告:"</span>, warnings)
+<span class="comment"># ['⚠️ 禁用 NSAID 类药物（含阿司匹林）',</span>
+<span class="comment">#  '⚠️ 与阿司匹林联用会增加出血风险']</span></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 第 7 章 -->
+        <section class="chapter" id="ch7">
+          <div class="chapter-header">
+            <h2>7. 未来展望</h2>
+            <p>Ontology × LLM 的融合只是刚刚开始</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🔮 五大趋势</h3>
+            <div class="steps">
+              <div class="step">
+                <div class="step-indicator"><div class="step-number">1</div><div class="step-line"></div></div>
+                <div class="step-content">
+                  <h4>LLM 自动构建 Ontology</h4>
+                  <p>未来 LLM 可以从文档中自动提取实体、关系和约束，自动生成 Ontology 草稿。人类只需审核和修正，大幅降低 Ontology 的构建成本。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator"><div class="step-number">2</div><div class="step-line"></div></div>
+                <div class="step-content">
+                  <h4>Ontology 作为 Agent 的"操作系统"</h4>
+                  <p>类似 Palantir AIP 的模式会普及——每个企业都有自己的 Ontology，AI Agent 在 Ontology 的约束下安全地操作业务系统。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator"><div class="step-number">3</div><div class="step-line"></div></div>
+                <div class="step-content">
+                  <h4>多模态 Ontology</h4>
+                  <p>不仅描述文本概念，还能关联图像、视频、3D模型等。例如：医疗 Ontology 中的"骨折"直接关联 X 光影像模式。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator"><div class="step-number">4</div><div class="step-line"></div></div>
+                <div class="step-content">
+                  <h4>联邦 Ontology</h4>
+                  <p>不同组织的 Ontology 可以安全互联——医院的患者 Ontology 联接药监局的药品 Ontology，实现跨机构推理。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator"><div class="step-number">5</div><div class="step-line"></div></div>
+                <div class="step-content">
+                  <h4>自进化 Ontology</h4>
+                  <p>Ontology 不再是静态的——通过分析 LLM 的使用日志、用户反馈和新数据，Ontology 可以自动发现缺失的概念和关系，持续进化。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 测验 -->
+        <section class="chapter" id="quiz-final">
+          <div class="chapter-header">
+            <h2>✅ 第四课总测验</h2>
+            <p>检验你对 Ontology 与 LLM 融合的理解</p>
+          </div>
+
+          <div class="quiz-container" data-quiz="q9">
+            <h4>🧪 问题 1/3</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">Ontology 主要帮助 LLM 解决哪个核心问题？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> 提升生成文本的流畅度
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> 降低推理延迟
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> 提供结构化知识锚点，减少幻觉并支持领域推理
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> 减少 GPU 训练成本
+            </div>
+            <div class="quiz-feedback correct">✅ 正确！Ontology 最核心的贡献是为 LLM 提供"事实锚点"和"推理框架"，让 AI 的输出有据可依、有规可循。</div>
+            <div class="quiz-feedback incorrect">❌ Ontology 的核心价值不是性能优化，而是提供结构化知识和推理能力。正确答案是 C。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'c')">提交答案</button>
+            </div>
+          </div>
+
+          <div class="quiz-container" data-quiz="q10">
+            <h4>🧪 问题 2/3</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">Ontology-RAG 相比传统 RAG 的最大改进是什么？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> 使用了更大的 Embedding 模型
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> 通过同义词、上位概念和关系进行语义扩展检索
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> 不需要向量数据库
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> 完全替代了 LLM 的角色
+            </div>
+            <div class="quiz-feedback correct">✅ 正确！Ontology-RAG 的核心是利用本体中的同义词(same_as)、层级(is_a)和关联关系进行查询扩展，找到传统关键词匹配遗漏的内容。</div>
+            <div class="quiz-feedback incorrect">❌ Ontology-RAG 仍然使用向量数据库和 LLM，核心改进是通过 Ontology 进行语义扩展检索。正确答案是 B。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'b')">提交答案</button>
+            </div>
+          </div>
+
+          <div class="quiz-container" data-quiz="q11">
+            <h4>🧪 问题 3/3</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">"神经符号系统(Neurosymbolic AI)"中，Ontology 扮演什么角色？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> 神经网络部分——负责模式识别
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> 符号系统部分——提供知识表示和逻辑推理
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> 训练数据——用来训练神经网络
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> 前端界面——展示推理结果
+            </div>
+            <div class="quiz-feedback correct">✅ 太棒了！在神经符号架构中，Ontology 是"符号"的代表——它提供结构化的知识表示和基于逻辑的推理。与之互补的是 LLM（神经网络），负责自然语言理解和生成。</div>
+            <div class="quiz-feedback incorrect">❌ Ontology 属于"符号系统"阵营——提供形式化知识表示和逻辑推理。"神经"部分由 LLM/深度学习承担。正确答案是 B。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'b')">提交答案</button>
+            </div>
+          </div>
+
+          <!-- 课程总结 -->
+          <div class="content-card" style="background:linear-gradient(135deg, var(--primary-50), var(--teal-light));border-color:var(--primary-light);margin-top:2rem;">
+            <h3>🎉 恭喜你完成全部课程！</h3>
+            <p>你已经完成了 Ontology 本体论交互式课程的全部四个模块。让我们回顾一下你学到了什么：</p>
+            <div class="value-grid" style="margin-top:1rem;">
+              <div class="value-item">
+                <div class="value-icon">📖</div>
+                <div class="value-number" style="font-size:0.9rem;">第一课</div>
+                <div class="value-label">理解了 Ontology 的<br>定义和核心概念</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🗺️</div>
+                <div class="value-number" style="font-size:0.9rem;">第二课</div>
+                <div class="value-label">掌握了 OPERA<br>万能建模框架</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🏗️</div>
+                <div class="value-number" style="font-size:0.9rem;">第三课</div>
+                <div class="value-label">实践了四大领域的<br>完整建模流程</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🤖</div>
+                <div class="value-number" style="font-size:0.9rem;">第四课</div>
+                <div class="value-label">探索了 Ontology × LLM<br>的前沿融合</div>
+              </div>
+            </div>
+            <div class="callout callout-success" style="margin-top:1rem;">
+              <strong>🚀 下一步建议</strong>
+              <ul>
+                <li>用 OPERA 框架对你自己工作领域的一个场景进行建模</li>
+                <li>学习 OWL 标准和 Protégé 工具</li>
+                <li>尝试用 Python owlready2 库构建一个小型 Ontology</li>
+                <li>阅读 Palantir 官方文档了解工业级 Ontology 实践</li>
+                <li>关注 Neurosymbolic AI 的前沿论文</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="page-nav">
+          <a href="course3-cases.html">← 上一课：多领域实战案例</a>
+          <a href="index.html">返回课程首页 🏠</a>
+        </div>
+      </main>
+    </div>
+
+    <footer class="footer">
+      <p>Ontology 本体论交互式课程 · 第四课：Ontology × LLM</p>
+    </footer>
+  </div>
+
+  <script src="js/scripts.js"></script>
+</body>
+</html>

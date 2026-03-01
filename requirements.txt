@@ -1,0 +1,3 @@
+jupyter
+owlready2
+rdflib

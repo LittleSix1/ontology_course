@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ontology 本体论 · 交互式课程</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      max-width: 800px;
+      margin: -2rem auto 3rem;
+      position: relative;
+      z-index: 10;
+      padding: 0 1rem;
+    }
+    .stat-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .stat-card .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .stat-card .stat-label {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      margin-top: 0.15rem;
+    }
+    .highlight-section {
+      padding: 4rem 2rem;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .section-header h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .section-header p {
+      color: var(--gray-500);
+      font-size: 1rem;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .path-timeline {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .path-item {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0;
+    }
+    .path-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .path-dot {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      z-index: 1;
+      box-shadow: var(--shadow-md);
+    }
+    .path-line {
+      width: 2px;
+      flex: 1;
+      background: linear-gradient(to bottom, var(--gray-200), var(--gray-100));
+      min-height: 30px;
+    }
+    .path-item:last-child .path-line { display: none; }
+    .path-right {
+      padding-bottom: 2rem;
+    }
+    .path-right h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.25rem;
+    }
+    .path-right p {
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .audience-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: var(--transition);
+    }
+    .audience-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow-md);
+    }
+    .audience-card .audience-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .audience-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.35rem;
+    }
+    .audience-card p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+    @media (max-width: 640px) {
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="logo">🧠</div>
+      <span>Ontology 课堂</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html" class="active">首页</a></li>
+      <li><a href="course1-basics.html">基础篇</a></li>
+      <li><a href="course2-framework.html">建模框架</a></li>
+      <li><a href="course3-cases.html">实战案例</a></li>
+      <li><a href="course4-llm.html">Ontology×LLM</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">🎓 交互式学习 · 场景化教学 · 代码实战</div>
+        <h1>掌握 Ontology 本体论</h1>
+        <p class="subtitle">
+          从哲学起源到工程实践，从 Palantir 案例到 LLM 融合。<br>
+          用一套通用的建模框架，让你能对任何领域建立清晰的语义模型。
+        </p>
+        <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+          <a href="course1-basics.html" class="btn btn-white btn-lg">🚀 开始学习</a>
+          <a href="#courses" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);">
+            📋 查看大纲
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 统计 -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">课程模块</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">16+</div>
+        <div class="stat-label">交互练习</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">8</div>
+        <div class="stat-label">真实案例</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">20+</div>
+        <div class="stat-label">代码示例</div>
+      </div>
+    </div>
+
+    <!-- 课程列表 -->
+    <section class="highlight-section" id="courses">
+      <div class="section-header">
+        <h2>📚 课程模块</h2>
+        <p>四大模块循序渐进，从概念理解到工程实践，完整掌握 Ontology</p>
+      </div>
+      <div class="container-wide">
+        <div class="card-grid">
+          <!-- 课程 1 -->
+          <a href="course1-basics.html" class="course-card">
+            <div class="course-card-header">
+              <div class="icon-wrap" style="background:var(--primary-light);color:var(--primary);">📖</div>
+              <div style="display:flex;gap:0.4rem;margin-bottom:0.75rem;">
+                <span class="badge badge-blue">入门</span>
+                <span class="badge badge-green">推荐首学</span>
+              </div>
+              <h3>第一课：认识 Ontology</h3>
+              <p>从柏拉图到 Palantir — 理解本体论的哲学起源、信息科学定义、核心概念，以及为什么世界顶级公司都在使用它。</p>
+            </div>
+            <div class="course-card-footer">
+              <span class="chapters">5 个章节 · 约 25 分钟</span>
+              <span class="arrow">→</span>
+            </div>
+          </a>
+
+          <!-- 课程 2 -->
+          <a href="course2-framework.html" class="course-card">
+            <div class="course-card-header">
+              <div class="icon-wrap" style="background:var(--purple-light);color:var(--purple);">🗺️</div>
+              <div style="display:flex;gap:0.4rem;margin-bottom:0.75rem;">
+                <span class="badge badge-purple">核心</span>
+              </div>
+              <h3>第二课：OPERA 万能建模框架</h3>
+              <p>一张图掌握 Ontology 建模方法论。OPERA 五要素框架（对象·属性·事件·关系·公理），手把手教你对任意领域建模。</p>
+            </div>
+            <div class="course-card-footer">
+              <span class="chapters">6 个章节 · 约 30 分钟</span>
+              <span class="arrow">→</span>
+            </div>
+          </a>
+
+          <!-- 课程 3 -->
+          <a href="course3-cases.html" class="course-card">
+            <div class="course-card-header">
+              <div class="icon-wrap" style="background:var(--orange-light);color:var(--orange);">🏗️</div>
+              <div style="display:flex;gap:0.4rem;margin-bottom:0.75rem;">
+                <span class="badge badge-orange">实战</span>
+              </div>
+              <h3>第三课：多领域实战案例</h3>
+              <p>智慧医院、电商供应链、智慧城市、企业知识管理 — 四大真实场景，完整走一遍从需求分析到代码实现的建模全流程。</p>
+            </div>
+            <div class="course-card-footer">
+              <span class="chapters">4 个案例 · 约 40 分钟</span>
+              <span class="arrow">→</span>
+            </div>
+          </a>
+
+          <!-- 课程 4 -->
+          <a href="course4-llm.html" class="course-card">
+            <div class="course-card-header">
+              <div class="icon-wrap" style="background:var(--teal-light);color:var(--teal);">🤖</div>
+              <div style="display:flex;gap:0.4rem;margin-bottom:0.75rem;">
+                <span class="badge badge-teal">前沿</span>
+              </div>
+              <h3>第四课：Ontology × LLM</h3>
+              <p>探索本体论与大语言模型的前沿融合 — RAG增强、知识图谱推理、AI Agent 架构，以及神经符号系统的未来。</p>
+            </div>
+            <div class="course-card-footer">
+              <span class="chapters">5 个章节 · 约 30 分钟</span>
+              <span class="arrow">→</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 学习路径 -->
+    <section class="highlight-section" style="background:var(--gray-100);">
+      <div class="section-header">
+        <h2>🗺️ 学习路径</h2>
+        <p>推荐按顺序学习，也可根据背景跳转到感兴趣的模块</p>
+      </div>
+      <div class="path-timeline">
+        <div class="path-item">
+          <div class="path-left">
+            <div class="path-dot" style="background:var(--primary-light);color:var(--primary);">📖</div>
+            <div class="path-line"></div>
+          </div>
+          <div class="path-right">
+            <h3>第一步：理解基础概念</h3>
+            <p>了解 Ontology 是什么、核心术语（实体、属性、关系、公理），以及 Palantir 等公司如何利用 Ontology 驱动业务。</p>
+            <span class="badge badge-blue">预计 25 分钟</span>
+          </div>
+        </div>
+        <div class="path-item">
+          <div class="path-left">
+            <div class="path-dot" style="background:var(--purple-light);color:var(--purple);">🗺️</div>
+            <div class="path-line"></div>
+          </div>
+          <div class="path-right">
+            <h3>第二步：掌握建模方法论</h3>
+            <p>学习 OPERA 框架，通过交互式图表理解建模五要素，并完成一个小型建模练习。</p>
+            <span class="badge badge-purple">预计 30 分钟</span>
+          </div>
+        </div>
+        <div class="path-item">
+          <div class="path-left">
+            <div class="path-dot" style="background:var(--orange-light);color:var(--orange);">🏗️</div>
+            <div class="path-line"></div>
+          </div>
+          <div class="path-right">
+            <h3>第三步：动手实战</h3>
+            <p>在四个真实领域场景中实践建模，编写 Python / OWL 代码，体验从设计到实现的全过程。</p>
+            <span class="badge badge-orange">预计 40 分钟</span>
+          </div>
+        </div>
+        <div class="path-item">
+          <div class="path-left">
+            <div class="path-dot" style="background:var(--teal-light);color:var(--teal);">🤖</div>
+            <div class="path-line"></div>
+          </div>
+          <div class="path-right">
+            <h3>第四步：前沿探索</h3>
+            <p>了解 Ontology 如何与大语言模型结合，提升 RAG、Agent 和知识推理的能力。</p>
+            <span class="badge badge-teal">预计 30 分钟</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适合谁 -->
+    <section class="highlight-section">
+      <div class="section-header">
+        <h2>🎯 适合谁学习？</h2>
+        <p>不管你来自哪个背景，这门课都能帮你建立系统的 Ontology 知识</p>
+      </div>
+      <div class="audience-grid">
+        <div class="audience-card">
+          <div class="audience-icon">👨‍💻</div>
+          <h4>后端 / 数据工程师</h4>
+          <p>需要设计数据模型、统一数据语义、构建知识图谱的技术从业者。</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🧑‍🔬</div>
+          <h4>AI / ML 研究者</h4>
+          <p>希望用结构化知识增强 LLM 能力、做知识推理或构建 AI Agent 的研究者。</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">📊</div>
+          <h4>产品经理 / 业务分析师</h4>
+          <p>需要理解业务领域、建立统一业务语言、拆解复杂业务关系的角色。</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🎓</div>
+          <h4>学生 / 好奇者</h4>
+          <p>对哲学、语义网、知识表示感兴趣，想系统了解 Ontology 的学习者。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>Ontology 本体论交互式课程 · 基于 Palantir、W3C 标准与前沿 LLM 研究构建</p>
+    </footer>
+  </div>
+
+  <script src="js/scripts.js"></script>
+  <script>
+    // 滚动时给 navbar 添加阴影
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+    });
+  </script>
+</body>
+</html>

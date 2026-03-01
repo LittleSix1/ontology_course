@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第一课：认识 Ontology · 本体论交互式课程</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="logo">🧠</div>
+      <span>Ontology 课堂</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="course1-basics.html" class="active">基础篇</a></li>
+      <li><a href="course2-framework.html">建模框架</a></li>
+      <li><a href="course3-cases.html">实战案例</a></li>
+      <li><a href="course4-llm.html">Ontology×LLM</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <!-- 课程 Hero -->
+    <section class="course-hero">
+      <div class="container">
+        <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;">
+          <span class="badge badge-blue" style="background:rgba(255,255,255,0.15);color:white;">第一课</span>
+          <span class="badge badge-green" style="background:rgba(16,185,129,0.2);color:#6ee7b7;">入门推荐</span>
+        </div>
+        <h1>📖 认识 Ontology — 本体论基础</h1>
+        <p class="subtitle">从柏拉图的洞穴到 Palantir 的数据帝国，理解本体论的前世今生</p>
+      </div>
+    </section>
+
+    <!-- 主内容 -->
+    <div class="layout-with-sidebar">
+      <!-- 侧边栏 -->
+      <aside class="sidebar">
+        <nav>
+          <ul class="sidebar-nav">
+            <li class="section-title">课程章节</li>
+            <li><a href="#ch1" class="active">1. 哲学起源</a></li>
+            <li><a href="#ch2">2. 信息科学中的定义</a></li>
+            <li><a href="#ch3">3. 核心概念</a></li>
+            <li><a href="#ch4">4. Palantir 案例解读</a></li>
+            <li><a href="#ch5">5. 为什么需要 Ontology</a></li>
+            <li><a href="#quiz-final">✅ 章节测验</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- 主内容区 -->
+      <main>
+        <!-- ===== 第 1 章：哲学起源 ===== -->
+        <section class="chapter" id="ch1">
+          <div class="chapter-header">
+            <h2>1. 从哲学到计算机 — Ontology 的起源</h2>
+            <p>本体论是人类探索"存在"本质的哲学分支，如今已成为信息科学的关键工具</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🏛️ 哲学中的本体论</h3>
+            <p><strong>Ontology（本体论）</strong>一词源自希腊语 <em>ontos</em>（存在） + <em>logos</em>（学说），最早由古希腊哲学家研究。</p>
+            
+            <div class="callout callout-purple">
+              <strong>💡 柏拉图的"理型世界"</strong>
+              柏拉图认为，我们看到的桌子、椅子只是"理型"的投影。真正的"桌子"是一个抽象的、完美的模板。这就是最早的本体论思考 — 世界上有哪些事物"真正存在"？它们属于什么"类型"？
+            </div>
+
+            <p>亚里士多德更进一步，提出了一套分类体系：</p>
+            <ul>
+              <li><strong>实体（Substance）</strong>：独立存在的事物，如"一个人"</li>
+              <li><strong>属性（Quality）</strong>：事物的特征，如"这个人很高"</li>
+              <li><strong>关系（Relation）</strong>：事物间的联系，如"师生关系"</li>
+              <li><strong>数量（Quantity）</strong>：可度量的方面，如"身高180cm"</li>
+            </ul>
+            <p>这个分类体系是不是看起来很眼熟？没错，这就是现代数据建模的雏形！</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🔄 从哲学到计算机科学</h3>
+            <p>20世纪90年代，人工智能研究者发现，要让机器"理解"世界，需要一种方式来<strong>形式化地描述</strong>世界的结构。于是，他们借用了哲学中"本体论"这个概念：</p>
+
+            <div class="steps">
+              <div class="step">
+                <div class="step-indicator">
+                  <div class="step-number">1</div>
+                  <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                  <h4>哲学时代 (古希腊 ~ 19世纪)</h4>
+                  <p>"世界上有什么？这些东西是什么类型？" — 纯粹的思辨</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator">
+                  <div class="step-number">2</div>
+                  <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                  <h4>AI 早期 (1990s)</h4>
+                  <p>Gruber (1993) 提出经典定义："Ontology 是对共享概念化的形式化规范说明"</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator">
+                  <div class="step-number">3</div>
+                  <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                  <h4>语义网时代 (2000s)</h4>
+                  <p>W3C 制定 RDF、OWL 标准，Ontology 成为万维网"理解数据"的基础</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator">
+                  <div class="step-number">4</div>
+                  <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                  <h4>企业数据时代 (2010s ~ 今)</h4>
+                  <p>Palantir、Google、Microsoft 等公司将 Ontology 应用于大规模企业数据管理和 AI 系统</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 测验 1 -->
+          <div class="quiz-container" data-quiz="q1">
+            <h4>🧪 快速检验</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">Gruber 在 1993 年提出的经典定义核心是什么？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> 用数学公式描述宇宙的运行规律
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> 对共享概念化的形式化规范说明
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> 用编程语言模拟人类思维
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> 把所有数据存储在一个数据库中
+            </div>
+            <div class="quiz-feedback correct">✅ 正确！Gruber 的经典定义："An ontology is a formal, explicit specification of a shared conceptualization" — 强调"共享"和"形式化"。</div>
+            <div class="quiz-feedback incorrect">❌ 不太对。正确答案是 B — Gruber 强调 Ontology 是"对共享概念化的形式化规范说明"，核心在于"共享理解"和"形式化表达"。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'b')">提交答案</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 第 2 章：信息科学定义 ===== -->
+        <section class="chapter" id="ch2">
+          <div class="chapter-header">
+            <h2>2. 信息科学中的 Ontology</h2>
+            <p>在计算机科学语境下，Ontology 有着精确而实用的含义</p>
+          </div>
+
+          <div class="content-card">
+            <h3>📐 形式化定义</h3>
+            <p>在信息科学中，<strong>Ontology</strong> 不再是抽象的哲学讨论，而是一套可以被计算机理解和处理的<strong>知识表示系统</strong>。</p>
+            
+            <div class="callout callout-info">
+              <strong>📌 核心定义</strong>
+              Ontology = 一组<strong>概念</strong> + 概念之间的<strong>关系</strong> + 描述这些概念和关系的<strong>约束规则</strong>，用<strong>形式化语言</strong>表达出来，使得人和机器可以共同理解。
+            </div>
+
+            <p>更通俗地说：</p>
+            <ul>
+              <li>📋 <strong>概念/类（Class）</strong>：定义"世界上有哪些东西" — 比如：患者、医生、科室</li>
+              <li>📝 <strong>属性（Property）</strong>：定义"这些东西有什么特征" — 比如：年龄、姓名、职称</li>
+              <li>🔗 <strong>关系（Relation）</strong>：定义"这些东西之间怎么连接" — 比如：就诊于、隶属于</li>
+              <li>📏 <strong>公理/约束（Axiom）</strong>：定义"必须遵守什么规则" — 比如：一个患者必须有主治医生</li>
+            </ul>
+          </div>
+
+          <div class="content-card">
+            <h3>📊 Ontology vs 其他概念</h3>
+            <p>很多人会混淆 Ontology 和数据库 Schema、分类法（Taxonomy）等概念。来看一个对比：</p>
+
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>概念</th>
+                  <th>做什么</th>
+                  <th>表达能力</th>
+                  <th>例子</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>词汇表</td>
+                  <td>列出术语和定义</td>
+                  <td>⭐</td>
+                  <td>医学术语词典</td>
+                </tr>
+                <tr>
+                  <td>分类法 (Taxonomy)</td>
+                  <td>层级分类</td>
+                  <td>⭐⭐</td>
+                  <td>动物分类：哺乳→犬科→狗</td>
+                </tr>
+                <tr>
+                  <td>数据库 Schema</td>
+                  <td>表结构 + 数据类型</td>
+                  <td>⭐⭐⭐</td>
+                  <td>users 表 (id, name, email)</td>
+                </tr>
+                <tr>
+                  <td>知识图谱</td>
+                  <td>实体 + 关系的图</td>
+                  <td>⭐⭐⭐⭐</td>
+                  <td>Google Knowledge Graph</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--primary);font-weight:800;">Ontology</td>
+                  <td>概念 + 关系 + 约束 + 推理</td>
+                  <td>⭐⭐⭐⭐⭐</td>
+                  <td>OWL 医疗本体</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="callout callout-warning">
+              <strong>⚡ 关键区别</strong>
+              Ontology 比其他工具多了"推理能力"——你可以定义规则，让系统自动推导出新知识。例如：如果定义了"哺乳动物都是恒温的"+"狗是哺乳动物"，系统能自动推出"狗是恒温的"。
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🌐 Ontology 的类型</h3>
+            <div class="tabs">
+              <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab(this, 'tab-upper')">上层本体</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-domain')">领域本体</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-task')">任务本体</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-app')">应用本体</button>
+              </div>
+              <div class="tab-panel active" id="tab-upper">
+                <h4>上层本体 (Upper Ontology)</h4>
+                <p>描述非常通用的概念，如"事物"、"事件"、"时间"、"空间"，适用于所有领域。</p>
+                <p><strong>代表：</strong>SUMO、DOLCE、BFO（Basic Formal Ontology）</p>
+                <p><strong>类比：</strong>就像编程中的基础类库（如 Object 类），所有更具体的本体都可以从它继承。</p>
+              </div>
+              <div class="tab-panel" id="tab-domain">
+                <h4>领域本体 (Domain Ontology)</h4>
+                <p>专门描述某个特定领域的知识，如医学、金融、地理。</p>
+                <p><strong>代表：</strong>Gene Ontology（基因本体）、FIBO（金融业务本体）、SNOMED CT（医学术语本体）</p>
+                <p><strong>类比：</strong>就像特定行业的 SDK，封装了该领域的专业知识。</p>
+              </div>
+              <div class="tab-panel" id="tab-task">
+                <h4>任务本体 (Task Ontology)</h4>
+                <p>描述特定任务或处理过程的知识，不绑定特定领域。</p>
+                <p><strong>代表：</strong>诊断任务本体、规划任务本体</p>
+                <p><strong>类比：</strong>就像设计模式（Design Patterns），描述"怎么做"而非"做什么"。</p>
+              </div>
+              <div class="tab-panel" id="tab-app">
+                <h4>应用本体 (Application Ontology)</h4>
+                <p>结合领域本体和任务本体，为特定应用场景定制。</p>
+                <p><strong>代表：</strong>某医院的患者管理系统本体、某电商的推荐系统本体</p>
+                <p><strong>类比：</strong>就像最终的应用程序，组合了基础库 + SDK + 业务逻辑。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 第 3 章：核心概念 ===== -->
+        <section class="chapter" id="ch3">
+          <div class="chapter-header">
+            <h2>3. Ontology 的核心概念</h2>
+            <p>掌握这些 building blocks，你就能读懂和构建任何 Ontology</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🧱 五个构建块</h3>
+            <p>任何 Ontology 都由以下五类元素组成：</p>
+
+            <div class="value-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+              <div class="value-item" style="border-color:var(--primary-light);">
+                <div class="value-icon">🏷️</div>
+                <div class="value-number" style="font-size:1rem;">Class 类</div>
+                <div class="value-label">事物的"模板"</div>
+              </div>
+              <div class="value-item" style="border-color:var(--purple-light);">
+                <div class="value-icon">🔑</div>
+                <div class="value-number" style="font-size:1rem;color:var(--purple);">Individual 个体</div>
+                <div class="value-label">具体的"实例"</div>
+              </div>
+              <div class="value-item" style="border-color:var(--success-light);">
+                <div class="value-icon">📝</div>
+                <div class="value-number" style="font-size:1rem;color:var(--success);">Property 属性</div>
+                <div class="value-label">特征与关系</div>
+              </div>
+              <div class="value-item" style="border-color:var(--orange-light);">
+                <div class="value-icon">🔗</div>
+                <div class="value-number" style="font-size:1rem;color:var(--orange);">Relation 关系</div>
+                <div class="value-label">事物间的连接</div>
+              </div>
+              <div class="value-item" style="border-color:var(--danger-light);">
+                <div class="value-icon">📏</div>
+                <div class="value-number" style="font-size:1rem;color:var(--danger);">Axiom 公理</div>
+                <div class="value-label">不可违反的规则</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>📖 用生活例子理解</h3>
+            <p>假设我们要为一个<strong>宠物医院</strong>建立 Ontology：</p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">概念模型 (伪代码)</span>
+              </div>
+              <pre>
+<span class="comment">// ====== 类 (Class) ======</span>
+<span class="keyword">Class</span> 动物
+<span class="keyword">Class</span> 宠物  <span class="keyword">subClassOf</span> 动物      <span class="comment">// 宠物是动物的子类</span>
+<span class="keyword">Class</span> 猫    <span class="keyword">subClassOf</span> 宠物      <span class="comment">// 猫是宠物的子类</span>
+<span class="keyword">Class</span> 狗    <span class="keyword">subClassOf</span> 宠物
+<span class="keyword">Class</span> 人
+<span class="keyword">Class</span> 宠物主人 <span class="keyword">subClassOf</span> 人
+<span class="keyword">Class</span> 兽医    <span class="keyword">subClassOf</span> 人
+
+<span class="comment">// ====== 属性 (Property) ======</span>
+<span class="property">名字</span>  : 文本
+<span class="property">年龄</span>  : 整数
+<span class="property">品种</span>  : 文本
+<span class="property">体重</span>  : 浮点数
+
+<span class="comment">// ====== 关系 (Relation) ======</span>
+<span class="function">养了</span>   : 宠物主人 → 宠物     <span class="comment">// 一个主人可以养多只宠物</span>
+<span class="function">治疗</span>   : 兽医 → 宠物         <span class="comment">// 兽医治疗宠物</span>
+
+<span class="comment">// ====== 公理 (Axiom) ======</span>
+<span class="type">约束1</span>: 每只宠物 <span class="keyword">至少有</span> 1 个宠物主人
+<span class="type">约束2</span>: 兽医 <span class="keyword">不能同时是</span> 自己治疗的宠物的主人
+<span class="type">约束3</span>: 宠物的年龄 <span class="keyword">必须</span> ≥ 0</pre>
+            </div>
+
+            <div class="callout callout-success">
+              <strong>🎯 核心洞察</strong>
+              注意！以上代码不仅仅是"数据结构"——它还包含了<strong>业务规则</strong>（公理）。这就是 Ontology 超越普通数据库 Schema 的地方：它能表达语义约束并支持自动推理。
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🔍 属性的两种类型</h3>
+            <div class="tabs">
+              <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab(this, 'tab-dp')">数据属性</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-op')">对象属性</button>
+              </div>
+              <div class="tab-panel active" id="tab-dp">
+                <h4>数据属性 (Data Property)</h4>
+                <p>将一个<strong>实例</strong>连接到一个<strong>具体数据值</strong>。</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <span class="lang">示例</span>
+                  </div>
+                  <pre>
+<span class="comment">// 数据属性：实例 → 数据值</span>
+小花(猫) . 名字 = <span class="string">"小花"</span>
+小花(猫) . 年龄 = <span class="number">3</span>
+小花(猫) . 品种 = <span class="string">"英国短毛猫"</span>
+小花(猫) . 体重 = <span class="number">4.5</span></pre>
+                </div>
+              </div>
+              <div class="tab-panel" id="tab-op">
+                <h4>对象属性 (Object Property)</h4>
+                <p>将一个<strong>实例</strong>连接到<strong>另一个实例</strong>，表达实体之间的关系。</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <span class="lang">示例</span>
+                  </div>
+                  <pre>
+<span class="comment">// 对象属性：实例 → 实例</span>
+张先生(宠物主人) .<span class="function">养了</span> → 小花(猫)
+张先生(宠物主人) .<span class="function">养了</span> → 旺财(狗)
+李医生(兽医)    .<span class="function">治疗</span> → 小花(猫)</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 交互式练习 -->
+          <div class="interactive-exercise">
+            <h4>🎮 动手练习：识别 Ontology 元素</h4>
+            <p>下面描述了一个"在线书店"的场景。请识别哪些是 <span class="badge badge-blue">类(Class)</span>、哪些是 <span class="badge badge-green">属性(Property)</span>、哪些是 <span class="badge badge-purple">关系(Relation)</span>。</p>
+            <div style="background:white;border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;font-size:0.92rem;color:var(--gray-600);line-height:1.8;">
+              一家在线书店里有<strong>书籍</strong>和<strong>作者</strong>。每本书有<strong>标题</strong>、<strong>ISBN</strong>和<strong>价格</strong>。每个作者有<strong>姓名</strong>和<strong>国籍</strong>。一本书可以由多个作者<strong>撰写</strong>。<strong>读者</strong>可以对书籍<strong>评论</strong>。
+            </div>
+            <div id="exercise1-area" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;">
+              <div>
+                <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:0.5rem;">🏷️ 类 (Class)</p>
+                <div class="drag-area" id="class-zone" style="min-height:100px;" data-zone="class"></div>
+              </div>
+              <div>
+                <p style="font-size:0.82rem;font-weight:700;color:var(--success);margin-bottom:0.5rem;">📝 属性 (Property)</p>
+                <div class="drag-area" id="prop-zone" style="min-height:100px;" data-zone="property"></div>
+              </div>
+              <div>
+                <p style="font-size:0.82rem;font-weight:700;color:var(--purple);margin-bottom:0.5rem;">🔗 关系 (Relation)</p>
+                <div class="drag-area" id="rel-zone" style="min-height:100px;" data-zone="relation"></div>
+              </div>
+            </div>
+            <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.5rem;" id="items-pool">
+              <div class="drag-item" draggable="true" data-answer="class" data-label="书籍">📦 书籍</div>
+              <div class="drag-item" draggable="true" data-answer="class" data-label="作者">📦 作者</div>
+              <div class="drag-item" draggable="true" data-answer="property" data-label="标题">📋 标题</div>
+              <div class="drag-item" draggable="true" data-answer="property" data-label="ISBN">📋 ISBN</div>
+              <div class="drag-item" draggable="true" data-answer="property" data-label="价格">📋 价格</div>
+              <div class="drag-item" draggable="true" data-answer="property" data-label="姓名">📋 姓名</div>
+              <div class="drag-item" draggable="true" data-answer="property" data-label="国籍">📋 国籍</div>
+              <div class="drag-item" draggable="true" data-answer="relation" data-label="撰写">🔗 撰写</div>
+              <div class="drag-item" draggable="true" data-answer="relation" data-label="评论">🔗 评论</div>
+              <div class="drag-item" draggable="true" data-answer="class" data-label="读者">📦 读者</div>
+            </div>
+            <div style="margin-top:1rem;">
+              <button class="btn btn-primary btn-sm" onclick="checkDragExercise()">检查答案</button>
+              <button class="btn btn-outline btn-sm" onclick="resetDragExercise()">重置</button>
+              <span id="exercise1-result" style="margin-left:0.75rem;font-weight:600;font-size:0.9rem;"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 第 4 章：Palantir 案例 ===== -->
+        <section class="chapter" id="ch4">
+          <div class="chapter-header">
+            <h2>4. Palantir — 全球最成功的 Ontology 实践者</h2>
+            <p>看看这家估值千亿的公司如何靠 Ontology 重新定义数据管理</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🏢 Palantir 是谁？</h3>
+            <p><strong>Palantir Technologies</strong> 是一家成立于 2003 年的美国科技公司（纳斯达克: PLTR），2024 年营收 $28.7 亿美元，市值超千亿。创始人包括 Peter Thiel（PayPal 联合创始人）。</p>
+            <p>Palantir 的核心竞争力不是传统的数据库或 BI 工具，而是<strong>一套基于 Ontology 的数据操作系统</strong>。</p>
+
+            <div class="value-grid">
+              <div class="value-item">
+                <div class="value-icon">🏛️</div>
+                <div class="value-number">Gotham</div>
+                <div class="value-label">情报分析平台<br>(CIA、FBI、军方)</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🏭</div>
+                <div class="value-number">Foundry</div>
+                <div class="value-label">企业数据平台<br>(Airbus、Ferrari、NHS)</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🤖</div>
+                <div class="value-number">AIP</div>
+                <div class="value-label">AI 平台<br>(LLM + Ontology)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🧬 Palantir 的 Ontology 核心思想</h3>
+            <p>Palantir 的技术核心可以总结为一句话：</p>
+            <div class="callout callout-purple">
+              <strong>💎 核心理念</strong>
+              把企业的真实业务世界建模为一个<strong>数字孪生（Digital Twin）</strong>—— 这个数字世界就是 Ontology。它用"对象（Object）"代表业务实体，用"链接（Link）"代表关系，用"动作（Action）"代表可执行操作。
+            </div>
+
+            <h4>Palantir Ontology 的三层架构</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="lang">架构示意</span>
+              </div>
+              <pre>
+<span class="comment">┌─────────────────────────────────────────────────┐</span>
+<span class="comment">│             应用层 (Application Layer)            │</span>
+<span class="comment">│  ┌──────────┐ ┌──────────┐ ┌──────────────────┐ │</span>
+<span class="comment">│  │ 仪表板    │ │ 工作流   │ │  AI Agent (AIP) │ │</span>
+<span class="comment">│  └──────────┘ └──────────┘ └──────────────────┘ │</span>
+<span class="comment">│                     ↕                             │</span>
+<span class="comment">├─────────────────────────────────────────────────┤</span>
+<span class="keyword">│          ✨ Ontology 层 (语义模型)  ✨           │</span>
+<span class="keyword">│                                                   │</span>
+<span class="keyword">│  [对象类型]    [属性]     [关系]     [动作]        │</span>
+<span class="keyword">│   patients      name      treats    schedule      │</span>
+<span class="keyword">│   doctors       age       belongs   prescribe     │</span>
+<span class="keyword">│   departments   title     works_in  transfer      │</span>
+<span class="comment">│                     ↕                             │</span>
+<span class="comment">├─────────────────────────────────────────────────┤</span>
+<span class="comment">│              数据层 (Data Sources)                │</span>
+<span class="comment">│  ┌────┐ ┌─────┐ ┌──────┐ ┌────────┐ ┌──────┐  │</span>
+<span class="comment">│  │SQL │ │NoSQL│ │  API │ │  CSV   │ │Kafka │  │</span>
+<span class="comment">│  └────┘ └─────┘ └──────┘ └────────┘ └──────┘  │</span>
+<span class="comment">└─────────────────────────────────────────────────┘</span></pre>
+            </div>
+
+            <p>看到了吗？Ontology 层是<strong>连接原始数据和上层应用的桥梁</strong>。不管底层数据来自 SQL、MongoDB 还是 CSV，上层应用只需要跟 Ontology 打交道。</p>
+          </div>
+
+          <div class="content-card">
+            <h3>🌍 真实应用案例</h3>
+            <div class="accordion">
+              <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                  <span>🏥 NHS (英国国家医疗服务体系) — COVID-19 疫苗分发</span>
+                  <span class="arrow-icon">▶</span>
+                </div>
+                <div class="accordion-body">
+                  <div class="accordion-body-inner">
+                    <p><strong>挑战：</strong>COVID-19 疫情期间，需要在全英 5400+ 万人中高效分发疫苗，涉及库存、冷链、人员调度、优先级排序等复杂管理。</p>
+                    <p><strong>Ontology 解法：</strong></p>
+                    <ul>
+                      <li>定义核心对象：<code>疫苗批次</code>、<code>接种站</code>、<code>患者</code>、<code>医护人员</code>、<code>冷链设备</code></li>
+                      <li>建立关系：疫苗批次→存储于→接种站、患者→预约→接种站</li>
+                      <li>定义操作：<code>调度</code>（自动分配疫苗到接种站）、<code>预约</code>（给优先人群排队）</li>
+                    </ul>
+                    <p><strong>成效：</strong>帮助 NHS 在最短时间内完成全球最大规模疫苗接种之一。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                  <span>✈️ Airbus — 供应链优化</span>
+                  <span class="arrow-icon">▶</span>
+                </div>
+                <div class="accordion-body">
+                  <div class="accordion-body-inner">
+                    <p><strong>挑战：</strong>全球数千供应商、数百万零件、多个工厂之间数据孤岛严重，难以统一管理。</p>
+                    <p><strong>Ontology 解法：</strong></p>
+                    <ul>
+                      <li>将<code>零部件</code>、<code>供应商</code>、<code>工厂</code>、<code>订单</code>建模为 Ontology 对象</li>
+                      <li>所有数据源（ERP、MES、PLM系统）都映射到统一 Ontology</li>
+                      <li>通过<code>供应商→供应→零部件→装配于→飞机</code>的关系链，实现端到端追踪</li>
+                    </ul>
+                    <p><strong>成效：</strong>供应链可视化、异常预警，大幅减少生产延误。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                  <span>🤖 AIP — LLM + Ontology 融合</span>
+                  <span class="arrow-icon">▶</span>
+                </div>
+                <div class="accordion-body">
+                  <div class="accordion-body-inner">
+                    <p><strong>最新突破：</strong>2023年推出的 AIP（Artificial Intelligence Platform）让 LLM 直接与 Ontology 交互。</p>
+                    <p><strong>工作方式：</strong></p>
+                    <ul>
+                      <li>用户用自然语言提问：<em>"上周有哪些紧急订单延迟了？"</em></li>
+                      <li>LLM 理解问题后，查询 Ontology 中的<code>订单</code>对象（筛选：紧急=true, 状态=延迟）</li>
+                      <li>LLM 还能调用<code>Action</code>："自动给对应供应商发送催促通知"</li>
+                    </ul>
+                    <p><strong>启示：</strong>Ontology 为 LLM 提供了"结构化的世界观"，让 AI 不再是无根之木，而是<strong>锚定在真实业务语义</strong>上的智能体。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 测验 2 -->
+          <div class="quiz-container" data-quiz="q2">
+            <h4>🧪 快速检验</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">在 Palantir 的架构中，Ontology 层的核心功能是什么？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> 直接存储原始数据
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> 替代数据库，成为唯一数据源
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> 作为语义桥梁，连接原始数据和上层应用
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> 仅用于数据可视化展示
+            </div>
+            <div class="quiz-feedback correct">✅ 正确！Ontology 层是语义桥梁——它不存储数据本身，而是提供统一的"语义视图"，让上层应用可以不关心底层数据来自哪里。</div>
+            <div class="quiz-feedback incorrect">❌ 再想想。Ontology 不直接存储数据，也不替代数据库。它的核心是提供<strong>语义抽象层</strong>，连接异构数据源与上层应用。正确答案是 C。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'c')">提交答案</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 第 5 章：为什么需要 Ontology ===== -->
+        <section class="chapter" id="ch5">
+          <div class="chapter-header">
+            <h2>5. 为什么需要 Ontology？</h2>
+            <p>如果你在犹豫"值不值得学"，看看这些痛点你是否遇到过</p>
+          </div>
+
+          <div class="content-card">
+            <h3>😱 没有 Ontology 的世界</h3>
+            <div class="scenario-card">
+              <div class="scenario-header">
+                <div class="scenario-icon" style="background:var(--danger-light);color:var(--danger);">😤</div>
+                <div>
+                  <h3>场景：跨部门对齐会议</h3>
+                  <p>一家医院正在做数字化转型...</p>
+                </div>
+              </div>
+              <div class="scenario-body">
+                <div style="background:var(--gray-50);border-radius:var(--radius);padding:1rem;font-size:0.88rem;line-height:1.8;">
+                  <p><strong>👨‍⚕️ 医生：</strong>"我需要看到患者的'就诊记录'。"</p>
+                  <p><strong>👩‍💻 IT：</strong>"你说的是 visit_log 表还是 appointment_history 表？"</p>
+                  <p><strong>👨‍⚕️ 医生：</strong>"就是患者来看病的所有信息啊！"</p>
+                  <p><strong>👩‍💼 运营：</strong>"我这边叫 '门诊流水'，和你说的是同一个东西吗？"</p>
+                  <p><strong>🧑‍🔧 数据工程师（内心崩溃）：</strong>"这三个系统里有6张表，字段名都不一样……"</p>
+                </div>
+                <div class="callout callout-warning" style="margin-top:1rem;">
+                  <strong>🔥 核心痛点</strong>
+                  没有统一的 Ontology，每个人对同一个概念有不同理解。数据像"孤岛"一样存在各个系统中，无法互通，也无法被 AI 理解。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>✨ 有了 Ontology 之后</h3>
+            <p>Ontology 能带来的六大核心价值：</p>
+            <div class="value-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+              <div class="value-item">
+                <div class="value-icon">🗣️</div>
+                <div class="value-number" style="font-size:1rem;">统一语言</div>
+                <div class="value-label">跨部门、跨系统的<br>共享术语和定义</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🔌</div>
+                <div class="value-number" style="font-size:1rem;color:var(--secondary);">数据集成</div>
+                <div class="value-label">打通异构数据源<br>消除数据孤岛</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🧠</div>
+                <div class="value-number" style="font-size:1rem;color:var(--purple);">自动推理</div>
+                <div class="value-label">基于规则自动<br>发现隐藏知识</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🤖</div>
+                <div class="value-number" style="font-size:1rem;color:var(--teal);">AI 锚点</div>
+                <div class="value-label">为 LLM 提供<br>结构化世界模型</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">♻️</div>
+                <div class="value-number" style="font-size:1rem;color:var(--success);">知识复用</div>
+                <div class="value-label">领域知识可被<br>多个应用共享</div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">🔍</div>
+                <div class="value-number" style="font-size:1rem;color:var(--orange);">语义搜索</div>
+                <div class="value-label">理解"意思"而非<br>仅匹配"关键字"</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3>🌟 行业应用一览</h3>
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>行业</th>
+                  <th>Ontology 用途</th>
+                  <th>典型案例</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>🏥 医疗</td>
+                  <td>统一医学术语、药物关系</td>
+                  <td>SNOMED CT, Gene Ontology</td>
+                </tr>
+                <tr>
+                  <td>🏦 金融</td>
+                  <td>金融工具分类、合规规则</td>
+                  <td>FIBO (金融业务本体)</td>
+                </tr>
+                <tr>
+                  <td>🏭 制造</td>
+                  <td>供应链建模、数字孪生</td>
+                  <td>Airbus + Palantir Foundry</td>
+                </tr>
+                <tr>
+                  <td>🌐 互联网</td>
+                  <td>知识图谱、语义搜索</td>
+                  <td>Google Knowledge Graph, Schema.org</td>
+                </tr>
+                <tr>
+                  <td>🏛️ 政府/军事</td>
+                  <td>情报融合、态势感知</td>
+                  <td>Palantir Gotham (CIA, 军方)</td>
+                </tr>
+                <tr>
+                  <td>🤖 AI/LLM</td>
+                  <td>RAG增强、知识推理</td>
+                  <td>Palantir AIP, 神经符号系统</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===== 章节总测验 ===== -->
+        <section class="chapter" id="quiz-final">
+          <div class="chapter-header">
+            <h2>✅ 第一课总测验</h2>
+            <p>检验你对本体论基础知识的掌握程度</p>
+          </div>
+
+          <div class="quiz-container" data-quiz="q3">
+            <h4>🧪 问题 1/3</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">以下哪个 <strong>不是</strong> Ontology 的核心组成部分？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> 类 (Class) — 对事物的分类
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> 关系 (Relation) — 事物之间的关联
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> 索引 (Index) — 数据的快速查找结构
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> 公理 (Axiom) — 语义约束规则
+            </div>
+            <div class="quiz-feedback correct">✅ 正确！"索引"是数据库的概念，不是 Ontology 的核心组成部分。Ontology 的核心是：类、属性、关系、个体、公理。</div>
+            <div class="quiz-feedback incorrect">❌ 答错了。"索引(Index)"是数据库概念，不属于 Ontology。正确答案是 C。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'c')">提交答案</button>
+            </div>
+          </div>
+
+          <div class="quiz-container" data-quiz="q4">
+            <h4>🧪 问题 2/3</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">Ontology 与普通数据库 Schema 最大的区别是什么？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> Ontology 能存储更多数据
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> Ontology 支持语义约束和自动推理
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> Ontology 查询速度更快
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> Ontology 只能用 Python 编写
+            </div>
+            <div class="quiz-feedback correct">✅ 正确！Ontology 最大的优势是能表达语义约束（公理）并支持自动推理，这是普通数据库 Schema 不具备的。</div>
+            <div class="quiz-feedback incorrect">❌ 不对。Ontology 的核心区别在于"语义约束 + 自动推理"能力。正确答案是 B。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'b')">提交答案</button>
+            </div>
+          </div>
+
+          <div class="quiz-container" data-quiz="q5">
+            <h4>🧪 问题 3/3</h4>
+            <p style="margin-bottom:1rem;color:var(--gray-600);font-size:0.9rem;">Palantir AIP 平台中，LLM 与 Ontology 如何协作？</p>
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="marker">A</span> LLM 替代了 Ontology 的所有功能
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="marker">B</span> LLM 理解自然语言，Ontology 提供结构化业务模型，两者协作
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="marker">C</span> Ontology 只用来训练 LLM
+            </div>
+            <div class="quiz-option" data-value="d" onclick="selectOption(this)">
+              <span class="marker">D</span> 两者完全独立，互不影响
+            </div>
+            <div class="quiz-feedback correct">✅ 完美！在 Palantir AIP 中，用户用自然语言提问 → LLM 理解意图 → 查询 Ontology 获取结构化数据 → LLM 生成回答或调用 Action。这是一种完美的互补关系。</div>
+            <div class="quiz-feedback incorrect">❌ 不是这样的。LLM 和 Ontology 是互补关系：LLM 处理自然语言理解，Ontology 提供结构化的业务知识。正确答案是 B。</div>
+            <div class="quiz-actions">
+              <button class="btn btn-primary btn-sm" onclick="checkAnswer(this, 'b')">提交答案</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 页面导航 -->
+        <div class="page-nav">
+          <a href="index.html">← 返回首页</a>
+          <a href="course2-framework.html">下一课：OPERA 建模框架 →</a>
+        </div>
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>Ontology 本体论交互式课程 · 第一课：认识 Ontology</p>
+    </footer>
+  </div>
+
+  <script src="js/scripts.js"></script>
+</body>
+</html>
